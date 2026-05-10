@@ -169,11 +169,17 @@
   </main>
 
   <!-- BOTTOM BAR -->
+  <% if (uploadsEnabled) { %>
   <div class="bottom-bar">
     <div class="btn-camera" id="fabUploadCamera">📷</div>
     <input type="text" class="caption-input" placeholder="tap to share a memory..." readonly id="fabUploadText">
     <button class="btn-snap" id="fabUploadBtn">SNAP! +</button>
   </div>
+  <% } else { %>
+  <div class="bottom-bar" style="justify-content: center;">
+    <p style="color: white; font-size: 14px; font-weight: 600; text-align: center; margin: 0;">Uploads are paused by admin</p>
+  </div>
+  <% } %>
 
   <!-- UPLOAD MODAL -->
   <div class="modal-backdrop" id="uploadModal">

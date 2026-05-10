@@ -127,6 +127,9 @@
   <!-- Photo list -->
   <div class="section-head">
     <h2>All Photos (<%= memories.length %>)</h2>
+    <button id="toggleUploadsBtn" onclick="toggleUploads()" style="background: <%= uploadsEnabled ? '#dc2626' : '#16a34a' %>; color: white; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 12px;">
+      <%= uploadsEnabled ? 'Pause Uploads' : 'Enable Uploads' %>
+    </button>
   </div>
 
   <div class="photo-list">
@@ -217,6 +220,29 @@
         }
       } catch(e) {
         alert("Delete failed");
+      }
+    }
+
+    async function toggleUploads() {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const key = urlParams.get('key');
+        const res = await fetch(`/admin/toggle-uploads?key=${key}`, { method: "POST" });
+        const data = await res.json();
+        if (data.success) {
+          const btn = document.getElementById("toggleUploadsBtn");
+          if (data.uploadsEnabled) {
+            btn.style.background = "#dc2626";
+            btn.innerText = "Pause Uploads";
+          } else {
+            btn.style.background = "#16a34a";
+            btn.innerText = "Enable Uploads";
+          }
+        } else {
+          alert("Could not toggle uploads");
+        }
+      } catch(e) {
+        alert("Toggle failed");
       }
     }
   </script>

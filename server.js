@@ -9,6 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 let memories = [];
+let uploadsEnabled = true;
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -51,7 +52,8 @@ app.get("/", (req, res) => {
     coupleName: process.env.COUPLE_NAME,
     groomName: process.env.GROOM_NAME || "Pavan Kumar",
     brideName: process.env.BRIDE_NAME || "Aishwarya",
-    eventDate: process.env.EVENT_DATE
+    eventDate: process.env.EVENT_DATE,
+    uploadsEnabled
   });
 });
 
@@ -102,11 +104,19 @@ app.get("/wall", (req, res) => {
     bridePercent,
     groomPercent,
     winnerText,
-    highlights
+    highlights,
+    uploadsEnabled
   });
 });
 
 app.post("/upload", upload.single("photo"), (req, res) => {
+  if (!uploadsEnabled) {
+    if (req.headers['x-requested-with'] === 'XMLHttpRequest' || req.headers.accept?.includes('application/json')) {
+      return res.json({ success: false, error: "Uploads are currently paused by the admin." });
+    }
+    return res.status(403).send("Uploads are currently paused by the admin.");
+  }
+
   const memory = {
     id: Date.now(),
     imageUrl: `/uploads/${req.file.filename}`,
@@ -231,8 +241,20 @@ app.get("/admin", (req, res) => {
     brideCount,
     groomCount,
     bridePercent,
-    groomPercent
+    groomPercent,
+    uploadsEnabled
   });
+});
+
+// Admin toggle uploads
+app.post("/admin/toggle-uploads", (req, res) => {
+  const id = req.body.key;
+  // Note: we can pass key via query parameter too, but we can also check the body if we want, or rely on URL query param.
+  if (req.query.key !== ADMIN_KEY) {
+    return res.status(403).json({ success: false, error: "Access denied" });
+  }
+  uploadsEnabled = !uploadsEnabled;
+  res.json({ success: true, uploadsEnabled });
 });
 
 // Admin delete photo
