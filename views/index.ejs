@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>
+    <%= appName %> — Memory Wall
+  </title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Whisper&family=Bangers&family=Comic+Neue:wght@400;700&family=Orbitron:wght@400;700&family=Oswald:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+  <main class="app">
+
+    <!-- HERO PANEL -->
+    <section class="hero">
+      <img src="/uploads/hero-bg.jpeg" alt="Couple" class="hero-img">
+      <div class="hero-gradient"></div>
+
+      <div class="snap-action">SNAP!</div>
+
+      <div class="hero-top-row">
+        <div class="live-quest-badge">
+          <div class="live-pulse"></div> LIVE QUEST
+        </div>
+      </div>
+
+      <div class="hero-content">
+        <p class="hero-subtitle">WEDDING MEMORIES</p>
+        <h1 class="hero-title">
+          <span class="hero-name">
+            <%= groomName %>
+          </span>
+          <span class="hero-ampersand">&</span>
+          <span class="hero-name">
+            <%= brideName %>
+          </span>
+        </h1>
+        <div class="hero-divider">━━━━ ★ ━━━━</div>
+        <p class="hero-meta">
+          <%= eventDate %> · Memory Wall
+        </p>
+      </div>
+    </section>
+
+    <!-- STATS HUD -->
+    <div class="stats-hud">
+      <div class="joystick-icon">📸</div>
+      <div class="stats-cols">
+        <div class="stat-col">
+          <span class="stat-num" id="statMemories">
+            <%= memories.length %>
+          </span>
+          <span class="stat-label">MEMORIES</span>
+        </div>
+        <div class="stat-col">
+          <span class="stat-num" id="statReactions">
+            <%= memories.reduce((sum, m)=> sum + (m.reactions?.heart || 0) + (m.reactions?.fire || 0) +
+              (m.reactions?.laugh || 0) + (m.reactions?.love || 0) + (m.reactions?.clap || 0), 0) %>
+          </span>
+          <span class="stat-label">REACTIONS</span>
+        </div>
+        <div class="stat-col">
+          <span class="stat-num" id="statComments">
+            <%= memories.reduce((sum, m)=> sum + (m.comments?.length || 0), 0) %>
+          </span>
+          <span class="stat-label">COMMENTS</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- XP BATTLE BAR -->
+    <section class="xp-battle">
+      <div class="xp-header">
+        <span class="xp-title">WHOSE SIDE WINS?</span>
+        <span class="live-battle-badge">LIVE BATTLE!</span>
+      </div>
+      <div class="xp-bar">
+        <div class="xp-bride" style="width: <%= bridePercent || 50 %>%;">💍 BRIDE · <%= (brideCount || 0) * 10 %> XP
+        </div>
+        <div class="xp-divider"></div>
+        <div class="xp-groom" style="width: <%= groomPercent || 50 %>%;">
+          <%= (groomCount || 0) * 10 %> XP · GROOM 🤵
+        </div>
+      </div>
+      <div class="xp-meta">
+        <span>
+          <%= brideCount || 0 %> uploads
+        </span>
+        <span>
+          <%= groomCount || 0 %> uploads
+        </span>
+      </div>
+    </section>
+
+    <!-- TOP MOMENTS HIGHLIGHTS -->
+    <% if (highlights && highlights.length> 0) { %>
+      <div class="section-header">
+        <span class="section-title-blue">🏆 TOP MOMENTS</span>
+        <span class="section-meta">Most Reacted</span>
+      </div>
+      <div class="highlights-scroll">
+        <% highlights.forEach(h=> { %>
+          <div class="highlight-card" data-memory="<%= encodeURIComponent(JSON.stringify(h.memory)) %>">
+            <img src="<%= h.memory.imageUrl %>" alt="<%= h.label %>" class="highlight-img">
+            <div class="highlight-overlay">
+              <div class="highlight-emoji">
+                <%= h.emoji %>
+              </div>
+              <div class="highlight-label">
+                <%= h.label %>
+              </div>
+              <div class="highlight-count">
+                <%= h.count %> reactions
+              </div>
+            </div>
+          </div>
+          <% }) %>
+      </div>
+      <% } %>
+
+        <!-- BENTO GRID -->
+        <div class="section-header">
+          <span class="section-title-blue">📸 ALL MEMORIES</span>
+          <span class="section-meta">
+            <%= memories.length %> PANELS
+          </span>
+        </div>
+
+        <div class="bento-grid">
+          <% if (memories.length===0) { %>
+            <div
+              style="padding: 30px; color: var(--boom-yellow); font-family: var(--font-body); grid-column: span 3; text-align: center; font-size: 16px;">
+              No memories yet!<br><span style="font-size: 12px; opacity: 0.7;">Tap SNAP below to share the first one
+                📷</span>
+            </div>
+            <% } else { %>
+              <% memories.forEach((memory, idx)=> {
+                let tileClass = "bento-tile";
+                if (idx % 6 === 0) tileClass += " tall";
+                else if (idx % 6 === 3) tileClass += " wide";
+                %>
+                <div class="<%= tileClass %>" data-memory-id="<%= memory.id %>"
+                  data-memory="<%= encodeURIComponent(JSON.stringify(memory)) %>">
+                  <% if (idx===0) { %>
+                    <div class="starburst-badge">NEW!</div>
+                    <% } %>
+                      <img src="<%= memory.imageUrl %>" alt="Memory" loading="lazy">
+                      <div class="bento-halftone"></div>
+                      <div class="bento-caption">
+                        <span class="bento-caption-text">
+                          <%= memory.caption || "No caption" %>
+                        </span>
+                        <span class="bento-caption-stats">❤️ <%= (memory.reactions?.heart || 0) +
+                            (memory.reactions?.fire || 0) + (memory.reactions?.love || 0) %></span>
+                      </div>
+                </div>
+                <% }) %>
+                  <% } %>
+        </div>
+
+  </main>
+
+  <!-- BOTTOM BAR -->
+  <div class="bottom-bar">
+    <div class="btn-camera" id="fabUploadCamera">📷</div>
+    <input type="text" class="caption-input" placeholder="tap to share a memory..." readonly id="fabUploadText">
+    <button class="btn-snap" id="fabUploadBtn">SNAP! +</button>
+  </div>
+
+  <!-- UPLOAD MODAL -->
+  <div class="modal-backdrop" id="uploadModal">
+    <div class="upload-sheet">
+      <div class="drag-handle"></div>
+
+      <!-- STEP 1: Name + Source -->
+      <div id="uploadStep1">
+        <div class="sheet-title-block">
+          <h2 class="sheet-title">SHARE A MEMORY!</h2>
+          <p class="sheet-subtitle">★ Your moment. Captured forever. ★</p>
+        </div>
+
+        <div class="name-bubble" id="nameBubbleSection">
+          <p class="bubble-title">👋 What's your name?</p>
+          <p class="bubble-desc">Your name appears on all your photos.</p>
+          <input type="text" class="bubble-input" id="guestNameInput" placeholder="Your name...">
+          <span class="skip-link" id="skipNameLink">SKIP FOR NOW →</span>
+        </div>
+
+        <div class="sheet-divider">
+          <span>[ ✦ ]</span>
+        </div>
+
+        <div class="upload-options">
+          <div class="upload-card-comic selected" id="optCamera">
+            <div class="upload-card-icon">📷</div>
+            <p class="upload-card-title">TAKE PHOTO</p>
+            <p class="upload-card-desc">Open camera</p>
+          </div>
+          <div class="upload-card-comic" id="optGallery">
+            <div class="upload-card-icon">🖼️</div>
+            <p class="upload-card-title">CHOOSE PHOTO</p>
+            <p class="upload-card-desc">From gallery</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: Preview + Details -->
+      <div id="uploadStep2" class="hidden">
+        <div class="sheet-title-block">
+          <h2 class="sheet-title">LOOKING GREAT!</h2>
+          <p class="sheet-subtitle">Add details to your memory</p>
+        </div>
+
+        <div class="preview-container">
+          <img id="photoPreview" src="" alt="Preview" class="photo-preview">
+        </div>
+
+        <div class="detail-fields">
+          <input type="text" class="bubble-input" id="captionInput" placeholder="What's happening in this moment?"
+            maxlength="120">
+          <div class="caption-counter"><span id="charCount">0</span>/120</div>
+
+          <p class="side-label">Which side are you on?</p>
+          <div class="side-pills">
+            <button class="side-pill" data-side="Bride's Side">💍 Bride's Side</button>
+            <button class="side-pill active" data-side="Friends">😎 Friends</button>
+            <button class="side-pill" data-side="Groom's Side">🤵 Groom's Side</button>
+          </div>
+
+          <button class="btn-share-memory" id="btnShareMemory">Share to the Memory Wall →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Success -->
+      <div id="uploadStep3" class="hidden">
+        <div class="success-card">
+          <div class="success-icon">✅</div>
+          <h2 class="sheet-title">MEMORY IS LIVE!</h2>
+          <p class="sheet-subtitle">Your moment is now on the wall 🎉</p>
+          <img id="successThumb" src="" alt="Uploaded" class="success-thumb">
+          <button class="btn-share-memory" id="btnBackToWall">Back to the Wall →</button>
+        </div>
+      </div>
+
+      <form action="/upload" method="POST" enctype="multipart/form-data" id="uploadForm" class="hidden">
+        <input type="file" id="photo-upload-gallery" name="photo" accept="image/*">
+        <input type="file" id="photo-upload-camera" name="photo" accept="image/*" capture="environment">
+        <input type="hidden" name="guestName" id="hiddenGuestName">
+        <input type="hidden" name="side" id="hiddenSide" value="Friends">
+        <input type="hidden" name="caption" id="hiddenCaption" value="">
+      </form>
+
+      <p class="bottom-note" id="uploadBottomNote">Photos go live for all guests instantly!</p>
+    </div>
+  </div>
+
+  <!-- PHOTO VIEW MODAL -->
+  <div class="modal-backdrop" id="photoModal">
+    <div class="photo-card-modal">
+      <button class="photo-modal-close" id="photoModalClose">✕</button>
+      <button class="photo-nav-btn photo-nav-prev" id="photoNavPrev">‹</button>
+      <button class="photo-nav-btn photo-nav-next" id="photoNavNext">›</button>
+
+      <div class="photo-modal-img-wrap">
+        <img id="modalPhoto" src="" alt="Memory" class="photo-modal-img">
+        <div class="photo-modal-credit" id="modalCredit">by Guest</div>
+      </div>
+
+      <div class="photo-modal-body">
+        <p class="photo-modal-caption" id="modalCaption">Caption</p>
+        <p class="photo-modal-meta" id="modalMeta">Just now · Friends</p>
+
+        <!-- Reactions -->
+        <div class="reaction-bar" id="reactionBar">
+          <button class="reaction-pill" data-type="heart"><span>❤️</span> <span class="r-count"
+              id="rHeart">0</span></button>
+          <button class="reaction-pill" data-type="laugh"><span>😂</span> <span class="r-count"
+              id="rLaugh">0</span></button>
+          <button class="reaction-pill" data-type="love"><span>😍</span> <span class="r-count"
+              id="rLove">0</span></button>
+          <button class="reaction-pill" data-type="fire"><span>🔥</span> <span class="r-count"
+              id="rFire">0</span></button>
+          <button class="reaction-pill" data-type="clap"><span>🙌</span> <span class="r-count"
+              id="rClap">0</span></button>
+        </div>
+
+        <!-- Comments -->
+        <div class="comments-section">
+          <div class="comments-list" id="commentsList"></div>
+          <div id="commentLimitMsg" class="comment-limit-msg hidden">You've already shared your thoughts
+            😊<br><small>React instead: ❤️ 😂 😍 🔥 🙌</small></div>
+          <div class="comment-input-row" id="commentInputRow">
+            <input type="text" class="comment-input" id="commentInput" placeholder="Add a comment..." maxlength="200">
+            <button class="comment-send" id="commentSend">➤</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confettiCanvas"
+    style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;"></canvas>
+
+  <!-- Memories data for JS navigation -->
+  <script id="memoriesData" type="application/json"><%- JSON.stringify(memories) %></script>
+
+  <script src="/js/app.js"></script>
+</body>
+
+</html>

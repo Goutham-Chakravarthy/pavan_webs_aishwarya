@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — <%= appName %></title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Bangers&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: #0d1b2e; color: #E8EDF4; min-height: 100vh; }
+
+    .admin-header {
+      background: linear-gradient(135deg, #0A1628, #1a2d4a);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 16px 20px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .admin-logo { font-family: 'Bangers', sans-serif; font-size: 22px; color: #FFD700; letter-spacing: 1px; }
+    .admin-title { font-size: 13px; color: rgba(255,255,255,0.5); }
+    .admin-badge { margin-left: auto; background: #dc2626; color: white; font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 999px; letter-spacing: 0.05em; }
+
+    /* Stats row */
+    .stats-row {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+      padding: 20px 16px 0;
+    }
+    .stat-box {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 16px; text-align: center;
+    }
+    .stat-box .num { font-size: 28px; font-weight: 700; color: #FFD700; }
+    .stat-box .lbl { font-size: 10px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
+
+    /* Section header */
+    .section-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 16px 10px;
+    }
+    .section-head h2 { font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.08em; }
+
+    /* Photo list */
+    .photo-list { padding: 0 16px 100px; display: flex; flex-direction: column; gap: 10px; }
+
+    .photo-item {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px; padding: 12px; display: flex; gap: 12px; align-items: center;
+    }
+    .photo-thumb {
+      width: 60px; height: 60px; border-radius: 10px; object-fit: cover; flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .photo-info { flex: 1; min-width: 0; }
+    .photo-caption { font-size: 13px; font-weight: 500; color: #E8EDF4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .photo-meta { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 3px; }
+    .photo-side { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 999px; margin-top: 5px; }
+    .side-bride { background: rgba(255,105,180,0.2); color: #ff69b4; }
+    .side-groom { background: rgba(96,156,192,0.2); color: #609CC0; }
+    .side-friends { background: rgba(255,215,0,0.2); color: #FFD700; }
+
+    /* Admin comments */
+    .admin-comments { margin-top: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 8px; display: flex; flex-direction: column; gap: 6px; }
+    .admin-comment-item { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 4px; }
+    .admin-comment-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .c-name { font-weight: 700; color: #81AED1; }
+    .c-text { color: rgba(255,255,255,0.7); }
+    .btn-del-comment { background: rgba(220,38,38,0.2); color: #f87171; border: none; width: 20px; height: 20px; border-radius: 4px; cursor: pointer; font-size: 10px; display: flex; align-items: center; justify-content: center; transition: 0.2s; flex-shrink: 0; }
+    .btn-del-comment:hover { background: rgba(220,38,38,0.5); }
+
+    .btn-delete {
+      background: rgba(220,38,38,0.15); border: 1px solid rgba(220,38,38,0.4);
+      color: #f87171; padding: 7px 12px; border-radius: 10px; font-size: 12px;
+      font-weight: 600; cursor: pointer; white-space: nowrap; flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .btn-delete:hover { background: rgba(220,38,38,0.3); }
+
+    .empty-state {
+      text-align: center; padding: 48px 20px;
+      color: rgba(255,255,255,0.3); font-size: 14px;
+    }
+    .empty-state .icon { font-size: 40px; display: block; margin-bottom: 12px; }
+
+    /* Modal */
+    .confirm-backdrop {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7); z-index: 100;
+      align-items: center; justify-content: center;
+    }
+    .confirm-backdrop.active { display: flex; }
+    .confirm-box {
+      background: #1a2d4a; border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px; padding: 28px 24px; width: 88%; max-width: 340px; text-align: center;
+    }
+    .confirm-box h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .confirm-box p { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 24px; }
+    .confirm-actions { display: flex; gap: 10px; }
+    .btn-cancel { flex: 1; padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); background: transparent; color: rgba(255,255,255,0.6); font-size: 14px; cursor: pointer; }
+    .btn-confirm-delete { flex: 1; padding: 12px; border-radius: 12px; background: #dc2626; border: none; color: white; font-size: 14px; font-weight: 700; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <div class="admin-header">
+    <div>
+      <div class="admin-logo">📸 WeddingSnap</div>
+      <div class="admin-title">Admin Dashboard</div>
+    </div>
+    <div class="admin-badge">🔒 ADMIN</div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-box">
+      <div class="num"><%= memories.length %></div>
+      <div class="lbl">Photos</div>
+    </div>
+    <div class="stat-box">
+      <div class="num"><%= memories.reduce((s, m) => s + (m.comments?.length || 0), 0) %></div>
+      <div class="lbl">Comments</div>
+    </div>
+    <div class="stat-box">
+      <div class="num"><%= memories.reduce((s, m) => s + Object.values(m.reactions || {}).reduce((a, b) => a + b, 0), 0) %></div>
+      <div class="lbl">Reactions</div>
+    </div>
+  </div>
+
+  <!-- Photo list -->
+  <div class="section-head">
+    <h2>All Photos (<%= memories.length %>)</h2>
+  </div>
+
+  <div class="photo-list">
+    <% if (memories.length === 0) { %>
+      <div class="empty-state">
+        <span class="icon">🖼️</span>
+        No photos yet
+      </div>
+    <% } else { %>
+      <% memories.forEach(memory => { %>
+        <div class="photo-item" id="item-<%= memory.id %>">
+          <img src="<%= memory.imageUrl %>" alt="Memory" class="photo-thumb">
+          <div class="photo-info">
+            <div class="photo-caption"><%= memory.caption || 'No caption' %></div>
+            <div class="photo-meta">by <%= memory.guestName || 'Anonymous' %> · ❤️ <%= Object.values(memory.reactions || {}).reduce((a, b) => a + b, 0) %> · 💬 <%= memory.comments?.length || 0 %></div>
+            <span class="photo-side <%= memory.side === "Bride's Side" ? 'side-bride' : memory.side === "Groom's Side" ? 'side-groom' : 'side-friends' %>">
+              <%= memory.side || 'Friends' %>
+            </span>
+            
+            <% if (memory.comments && memory.comments.length > 0) { %>
+            <div class="admin-comments">
+              <% memory.comments.forEach(c => { %>
+                <div class="admin-comment-item" id="comment-<%= memory.id %>-<%= c.id %>">
+                  <div><span class="c-name"><%= c.name %></span>: <span class="c-text"><%= c.text %></span></div>
+                  <button class="btn-del-comment" onclick="deleteComment('<%= memory.id %>', '<%= c.id %>')">✕</button>
+                </div>
+              <% }) %>
+            </div>
+            <% } %>
+          </div>
+          <button class="btn-delete" onclick="confirmDelete('<%= memory.id %>')">🗑 Delete</button>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+
+  <!-- Confirm delete modal -->
+  <div class="confirm-backdrop" id="confirmBackdrop">
+    <div class="confirm-box">
+      <h3>Delete Photo?</h3>
+      <p>This is permanent and cannot be undone.</p>
+      <div class="confirm-actions">
+        <button class="btn-cancel" onclick="cancelDelete()">Cancel</button>
+        <button class="btn-confirm-delete" onclick="doDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let pendingDeleteId = null;
+
+    function confirmDelete(id) {
+      pendingDeleteId = id;
+      document.getElementById("confirmBackdrop").classList.add("active");
+    }
+
+    function cancelDelete() {
+      pendingDeleteId = null;
+      document.getElementById("confirmBackdrop").classList.remove("active");
+    }
+
+    async function doDelete() {
+      if (!pendingDeleteId) return;
+      try {
+        const res = await fetch(`/admin/delete/${pendingDeleteId}`, { method: "POST" });
+        const data = await res.json();
+        if (data.success) {
+          const el = document.getElementById(`item-${pendingDeleteId}`);
+          if (el) { el.style.opacity = "0"; el.style.transform = "scale(0.95)"; el.style.transition = "0.3s"; setTimeout(() => el.remove(), 300); }
+        }
+      } catch(e) { alert("Delete failed"); }
+      cancelDelete();
+    }
+
+    async function deleteComment(photoId, commentId) {
+      if (!confirm("Delete this comment?")) return;
+      try {
+        const res = await fetch(`/admin/delete-comment/${photoId}/${commentId}`, { method: "POST" });
+        const data = await res.json();
+        if (data.success) {
+          const el = document.getElementById(`comment-${photoId}-${commentId}`);
+          if (el) {
+            el.style.opacity = "0";
+            setTimeout(() => el.remove(), 200);
+          }
+        } else {
+          alert("Could not delete comment");
+        }
+      } catch(e) {
+        alert("Delete failed");
+      }
+    }
+  </script>
+</body>
+</html>

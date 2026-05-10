@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Welcome | <%= appName %>
+  </title>
+  <meta name="description"
+    content="Join the wedding memory wall for <%= groomName %> & <%= brideName %>. Share your photos from the celebration!">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&family=Oswald:wght@400;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --panel-parchment: #E8EDF4;
+      --ink-black: #0A1628;
+      --boom-yellow: #FFD700;
+      --pow-red: #FF4081;
+      --zap-blue: #4FC3F7;
+      --wham-orange: #FF9100;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--panel-parchment);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Comic Neue', cursive;
+      overflow: hidden;
+      position: relative;
+      color: var(--ink-black);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: radial-gradient(var(--boom-yellow) 20%, transparent 20%), radial-gradient(var(--boom-yellow) 20%, transparent 20%);
+      background-size: 8px 8px;
+      background-position: 0 0, 4px 4px;
+      opacity: 0.15;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Action bursts */
+    .burst {
+      position: absolute;
+      font-family: 'Bangers', cursive;
+      color: var(--pow-red);
+      font-size: 40px;
+      -webkit-text-stroke: 2px var(--ink-black);
+      z-index: 1;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .burst-1 {
+      top: 10%;
+      left: 10%;
+      transform: rotate(-15deg);
+      color: var(--zap-blue);
+    }
+
+    .burst-2 {
+      bottom: 15%;
+      right: 10%;
+      transform: rotate(15deg);
+      font-size: 50px;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(15deg);
+      }
+
+      50% {
+        transform: translateY(-10px) rotate(20deg);
+      }
+    }
+
+    .welcome-panel {
+      position: relative;
+      z-index: 10;
+      width: 90%;
+      max-width: 400px;
+      background: #fff;
+      border: 4px solid var(--ink-black);
+      border-radius: 16px;
+      box-shadow: 8px 8px 0px var(--ink-black);
+      padding: 30px;
+      text-align: center;
+      transform: rotate(-2deg);
+    }
+
+    .panel-header {
+      background: var(--boom-yellow);
+      border: 3px solid var(--ink-black);
+      padding: 5px 15px;
+      font-family: 'Bangers', cursive;
+      font-size: 20px;
+      color: var(--ink-black);
+      display: inline-block;
+      margin-top: -50px;
+      margin-bottom: 20px;
+      box-shadow: 3px 3px 0px var(--ink-black);
+      transform: rotate(4deg);
+      letter-spacing: 2px;
+    }
+
+    .welcome-title {
+      font-family: 'Bangers', cursive;
+      font-size: 48px;
+      line-height: 1;
+      color: var(--ink-black);
+      -webkit-text-stroke: 1px white;
+      text-shadow: 3px 3px 0px var(--zap-blue);
+      margin-bottom: 15px;
+      text-transform: uppercase;
+    }
+
+    .welcome-title span {
+      display: block;
+    }
+
+    .welcome-title .amp {
+      color: var(--pow-red);
+      font-size: 32px;
+      text-shadow: 2px 2px 0px var(--ink-black);
+      margin: 5px 0;
+    }
+
+    .welcome-desc {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 25px;
+      line-height: 1.4;
+      padding: 10px;
+      background: var(--panel-parchment);
+      border: 2px dashed var(--ink-black);
+      border-radius: 8px;
+    }
+
+    .btn-enter {
+      display: inline-block;
+      width: 100%;
+      background: linear-gradient(180deg, var(--boom-yellow), var(--wham-orange));
+      border: 3px solid var(--ink-black);
+      box-shadow: 4px 4px 0px var(--ink-black);
+      padding: 15px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 18px;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: var(--ink-black);
+      text-decoration: none;
+      border-radius: 12px;
+      transition: transform 0.1s;
+      letter-spacing: 1px;
+    }
+
+    .btn-enter:active {
+      transform: translate(4px, 4px);
+      box-shadow: 0px 0px 0px var(--ink-black);
+    }
+
+    .footer-note {
+      margin-top: 20px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: rgba(10, 22, 40, 0.6);
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="burst burst-1">POW!</div>
+  <div class="burst burst-2">SNAP!</div>
+
+  <div class="welcome-panel">
+    <div class="panel-header">ISSUE #1: THE WEDDING</div>
+
+    <h1 class="welcome-title">
+      <span>
+        <%= groomName %>
+      </span>
+      <span class="amp">&</span>
+      <span>
+        <%= brideName %>
+      </span>
+    </h1>
+
+    <div class="welcome-desc">
+      JOIN THE HEROES!<br>
+      Share your epic photos and react to the best moments!
+    </div>
+
+    <a href="/wall" class="btn-enter">ENTER THE WALL 💥</a>
+
+    <div class="footer-note">NO LOGIN REQ! • INSTANT UPLOAD!</div>
+  </div>
+
+</body>
+
+</html>
