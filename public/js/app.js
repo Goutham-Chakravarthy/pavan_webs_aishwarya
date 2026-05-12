@@ -881,3 +881,8 @@ document.querySelectorAll('.highlight-card').forEach(card => {
     }
   });
 });
+
+// ==================== AUTO REFRESH WALL ====================
+setInterval(() => {
+  window.location.reload();
+}, 60 * 1000);
