@@ -157,7 +157,7 @@ body::before {
   margin: 0;
 }
 .hero-title {
-  font-family: 'Whisper', cursive;
+  font-family: var(--font-hero);
   font-size: 46px;
   color: white;
   margin: 0;
@@ -175,7 +175,7 @@ body::before {
 }
 .hero-ampersand {
   display: block;
-  font-family: 'Whisper', cursive;
+  font-family: var(--font-hero);
   font-size: 36px;
   color: var(--kapow-pink);
   line-height: 1;
