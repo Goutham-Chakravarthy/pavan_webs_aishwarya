@@ -2,6 +2,8 @@ const express = require("express");
 const path = require("path");
 const multer = require("multer");
 const dotenv = require("dotenv");
+const crypto = require("crypto");
+const { Blob } = require("buffer");
 
 dotenv.config();
 
@@ -18,18 +20,58 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "public/uploads");
-  },
-  filename: function (req, file, cb) {
-    const uniqueName = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueName + path.extname(file.originalname));
+const cloudinaryConfig = {
+  cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+  apiKey: process.env.CLOUDINARY_API_KEY,
+  apiSecret: process.env.CLOUDINARY_API_SECRET,
+  folder: process.env.CLOUDINARY_FOLDER || "Pavan_Aishwarya"
+};
+
+function signCloudinaryParams(params) {
+  const signatureBase = Object.keys(params)
+    .sort()
+    .map(key => `${key}=${params[key]}`)
+    .join("&");
+
+  return crypto
+    .createHash("sha1")
+    .update(signatureBase + cloudinaryConfig.apiSecret)
+    .digest("hex");
+}
+
+async function uploadToCloudinary(file) {
+  const { cloudName, apiKey, apiSecret, folder } = cloudinaryConfig;
+
+  if (!cloudName || !apiKey || !apiSecret) {
+    throw new Error("Cloudinary environment variables are missing.");
   }
-});
+
+  const timestamp = Math.floor(Date.now() / 1000).toString();
+  const signedParams = { folder, timestamp };
+  const signature = signCloudinaryParams(signedParams);
+  const formData = new FormData();
+
+  formData.append("file", new Blob([file.buffer], { type: file.mimetype }), file.originalname);
+  formData.append("api_key", apiKey);
+  formData.append("timestamp", timestamp);
+  formData.append("folder", folder);
+  formData.append("signature", signature);
+
+  const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+    method: "POST",
+    body: formData
+  });
+  const body = await response.json();
+
+  if (!response.ok) {
+    throw new Error(body.error?.message || "Cloudinary upload failed.");
+  }
+
+  return body;
+}
 
 const upload = multer({
-  storage,
+  storage: multer.memoryStorage(),
   limits: {
     fileSize: 5 * 1024 * 1024
   },
@@ -109,7 +151,11 @@ app.get("/wall", (req, res) => {
   });
 });
 
-app.post("/upload", upload.single("photo"), (req, res) => {
+app.get("/upload", (req, res) => {
+  res.redirect("/wall");
+});
+
+app.post("/upload", upload.single("photo"), async (req, res) => {
   if (!uploadsEnabled) {
     if (req.headers['x-requested-with'] === 'XMLHttpRequest' || req.headers.accept?.includes('application/json')) {
       return res.json({ success: false, error: "Uploads are currently paused by the admin." });
@@ -117,31 +163,45 @@ app.post("/upload", upload.single("photo"), (req, res) => {
     return res.status(403).send("Uploads are currently paused by the admin.");
   }
 
-  const memory = {
-    id: Date.now(),
-    imageUrl: `/uploads/${req.file.filename}`,
-    caption: req.body.caption || "A beautiful memory",
-    guestName: req.body.guestName || "Anonymous",
-    side: req.body.side || "Friends",
-    reactions: {
-      heart: 0,
-      laugh: 0,
-      love: 0,
-      fire: 0,
-      clap: 0
-    },
-    comments: [],
-    createdAt: new Date().toISOString()
-  };
-
-  memories.unshift(memory);
-
-  // Return JSON for AJAX uploads
-  if (req.headers['x-requested-with'] === 'XMLHttpRequest' || req.headers.accept?.includes('application/json')) {
-    return res.json({ success: true, memory });
+  if (!req.file) {
+    return res.status(400).send("Please choose a photo to upload.");
   }
 
-  res.redirect("/wall");
+  try {
+    const uploadedImage = await uploadToCloudinary(req.file);
+    const memory = {
+      id: Date.now(),
+      imageUrl: uploadedImage.secure_url,
+      cloudinaryPublicId: uploadedImage.public_id,
+      caption: req.body.caption || "A beautiful memory",
+      guestName: req.body.guestName || "Anonymous",
+      side: req.body.side || "Friends",
+      reactions: {
+        heart: 0,
+        laugh: 0,
+        love: 0,
+        fire: 0,
+        clap: 0
+      },
+      comments: [],
+      createdAt: new Date().toISOString()
+    };
+
+    memories.unshift(memory);
+
+    // Return JSON for AJAX uploads
+    if (req.headers['x-requested-with'] === 'XMLHttpRequest' || req.headers.accept?.includes('application/json')) {
+      return res.json({ success: true, memory });
+    }
+
+    res.redirect("/wall");
+  } catch (error) {
+    console.error("Upload failed:", error);
+    if (req.headers['x-requested-with'] === 'XMLHttpRequest' || req.headers.accept?.includes('application/json')) {
+      return res.status(500).json({ success: false, error: error.message });
+    }
+    res.status(500).send("Photo upload failed. Please try again.");
+  }
 });
 
 // React to a photo (5 emoji types)
