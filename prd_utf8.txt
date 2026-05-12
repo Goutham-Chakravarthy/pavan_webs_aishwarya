@@ -1,0 +1,798 @@
+﻿PRODUCT REQUIREMENTS DOCUMENT
+WeddingSnap
+A Shared Wedding Memory Wall
+No login · No signup · Just memories
+
+Version 1.0   ·   2026
+
+Product
+WeddingSnap v1.0
+Type
+Web App — Mobile First
+Platform
+iOS-style Progressive Web App
+
+Table of Contents
+
+1.  Product Overview &amp; Vision	3
+2.  User Personas	4
+3.  Feature Specification — Guest Side	5
+4.  Feature Specification — Admin Side	8
+5.  Complete User Flows	10
+6.  How It Works Behind the Scenes	13
+7.  Data &amp; Storage Architecture	15
+8.  Rules, Limits &amp; Spam Control	17
+9.  UI &amp; Design System	18
+10.  Screen Inventory	19
+11.  Future Roadmap	20
+12.  Glossary	21
+
+1
+Product Overview &amp; Vision
+What WeddingSnap is, why it exists, and what problem it solves
+
+1.1  What Is WeddingSnap?
+WeddingSnap is a mobile-first wedding memory sharing web app. Guests at a wedding event open a shared link or scan a QR code and instantly start uploading photos — no login, no signup, no friction. Every photo appears in a live bento-style gallery that all visitors can see, react to, and comment on. The gallery lives permanently on the web as a shared memory of the event.
+
+1.2  The Problem It Solves
+After every wedding, photos are scattered across hundreds of phones and WhatsApp groups. Nobody curates them. Most get forgotten within weeks. The couple never sees 90% of the candid moments their guests captured. WeddingSnap fixes this by creating one live, permanent, beautifully organised destination for every memory taken at the event.
+
+Core Value Proposition
+◆  Zero friction for guests — scan QR code, upload in under 10 seconds
+◆  All photos in one place — permanent, organised, beautiful
+◆  Live engagement — reactions, comments, leaderboard make it fun
+◆  Cultural and emotional — feels like a premium wedding album, not an app
+◆  Admin control — host can moderate content at any time
+
+1.3  Product Principles
+• Speed over features — every interaction should complete in under 3 taps
+• No login anywhere — not for guests, not for reactions, not for comments
+• Moment over person — trophy and highlights celebrate the photo, not the uploader
+• Fun over pressure — leaderboard is playful competition, not ranking individuals
+• Mobile first — designed for thumb use on a phone screen, not a desktop
+
+1.4  Success Metrics
+Metric
+Target
+Why It Matters
+Average photos uploaded per event
+80+ photos
+Validates that guests actually use it
+Upload completion rate
+&gt;70% of people who tap + finish
+Measures upload flow simplicity
+Reaction rate per photo
+At least 3 reactions per photo
+Shows engagement beyond passive viewing
+Session duration at event
+&gt;8 minutes average
+People stay, scroll, and interact
+Return visits post-event
+&gt;40% within 1 week
+The memory wall keeps people coming back
+
+2
+User Personas
+Who uses WeddingSnap and what they need
+
+The Guest
+The Couple
+The Admin / Host
+Who
+Anyone attending the wedding — family, friends, colleagues, all ages
+Goal
+Capture and share a fun moment easily
+Pain point
+Doesn&apos;t want to create accounts or deal with complex uploads
+Behaviour
+Scans QR, uploads 1–3 photos, reacts to others, checks the wall a few times during the event
+Who
+The bride and groom — typically not actively using the app during the event
+Goal
+Have a permanent, beautiful collection of all memories from their special day
+Pain point
+Photos are always scattered and lost after the event
+Behaviour
+Views the wall after the event, downloads all photos, shares the link with family
+Who
+The wedding coordinator, photographer, or a tech-savvy family member managing the event
+Goal
+Keep the platform clean, moderate inappropriate content, ensure it runs smoothly
+Pain point
+Needs easy controls without a complex CMS
+Behaviour
+Monitors uploads, deletes bad content, adjusts highlights if needed
+
+3
+Feature Specification — Guest Side
+Every feature a guest can use, in full detail
+
+3.1  Entry — Opening the App
+There is no app to install. Guests access WeddingSnap via a unique URL or QR code printed at the venue. The URL format is:
+weddingsnap.app/rahul-priya-2026
+• The page opens instantly in the mobile browser
+• No splash screen, no loading spinner beyond 1.5 seconds
+• The hero header with the couple&apos;s name and slideshow is the first thing visible
+• A PWA install prompt may appear (optional — guests can ignore it)
+
+3.2  Home Screen — What Guests See
+The home screen is structured from top to bottom as follows:
+
+1
+Status Bar
+Standard iOS-style bar with time, signal, and battery indicators
+
+2
+Hero Header
+Couple name in script font over a slideshow of 5 wedding photos fading every 3 seconds. Wedding emojis float slowly upward as ambient animation. LIVE badge glows gold. Stats pill at the bottom shows total memories, reactions, and comments — all updating in real time.
+
+3
+Bride vs Groom Leaderboard
+A horizontal progress bar split between Bride&apos;s side and Groom&apos;s side. Shows upload count and total reactions for each. Updates live as guests upload.
+
+4
+Top Moments Highlights
+5 horizontally scrollable cards — one per reaction emoji. Each shows the photo with the highest count for that emoji category. These are separate from the main grid and do not appear there.
+
+5
+All Memories Bento Grid
+Dynamic mixed-tile gallery. Latest photos at the top. Mixed tall, wide, and square tiles for visual richness. Each tile shows a caption and reaction count. NEW badge on the 2 most recent uploads.
+
+6
+Fixed Bottom Upload Bar
+Always visible. Camera icon on the left, caption input in the center, + Memory button on the right. Tapping any element opens the upload sheet.
+
+3.3  Upload Flow — Complete Step by Step
+
+Step 1 — Trigger
+Guest taps the camera icon, the caption input field, or the + Memory button in the bottom bar. The upload bottom sheet slides up from the bottom of the screen with a spring animation. The background blurs softly behind it.
+
+Step 2 — Name Collection (First Time Only)
+If this is the guest&apos;s first upload or first comment from this device, a one-time name prompt appears inside the sheet:
+• A soft gold-tinted banner: &apos;We&apos;d love to know your name!&apos;
+• A single text input: &apos;Your name (optional)&apos;
+• A skip link: &apos;Skip for now →&apos;
+• The name is saved in the browser&apos;s localStorage — never asked again
+• If skipped, the guest is shown as &apos;Anonymous&apos; on their photos and comments
+• The name can be changed later from a small &apos;Change name&apos; option
+
+Step 3 — Choose Photo Source
+Two large tappable options are presented:
+• 📷 Take Photo — opens the device&apos;s native camera
+• 🖼 Choose Photo — opens the device&apos;s native photo gallery picker
+
+Step 4 — Photo Preview &amp; Details
+After the photo is selected, the sheet expands to show:
+• A full-width preview of the selected photo with rounded corners
+• An optional caption input: &apos;What&apos;s happening in this moment?&apos; (max 120 characters)
+• A side selector with three pill chips: 💍 Bride&apos;s Side · 🤵 Groom&apos;s Side · 😎 Friends
+• The Share Memory button — full width, gradient, prominent
+
+Step 5 — Upload &amp; Success
+When the guest taps Share Memory:
+• The photo is compressed client-side before upload (max 1MB after compression)
+• A progress indicator shows while uploading
+• On success: a celebration card animates up with confetti
+• The card shows: checkmark, &apos;Memory is Live!&apos;, thumbnail, and the caption entered
+• 10 burst emojis (📸 🎉 ✨ ❤️ 🌸) fly upward over the hero
+• The photo count in the stats pill increments by 1 in real time
+• The new photo appears at the top of the bento grid immediately
+• A toast notification appears for all other visitors viewing the page: &apos;New memory just added!&apos;
+
+Upload Limits — Anti-Spam Rules
+◆  First 2 photos per device: instant — no waiting
+◆  From 3rd photo onwards: 5-minute cooldown between uploads
+◆  During cooldown: friendly countdown shown — &apos;Next upload in 3:42&apos;
+◆  The rest of the app (reactions, comments, browsing) stays fully usable during cooldown
+◆  Limit is tracked via device ID stored in localStorage and verified server-side
+
+3.4  Viewing a Photo — Floating Card Modal
+Tapping any photo in the bento grid or highlights section opens the photo in a floating card modal:
+
+• The background blurs and dims (backdrop-filter: blur 20px, dark overlay rgba(12,40,73,0.6))
+• A white floating card animates in from center with a spring scale effect (0.95 → 1.0)
+• Left and right arrows are visible at the vertical center of the screen for navigation
+• Swiping left or right on the card also navigates between photos
+• Tapping outside the card or the close button dismisses it
+
+Inside the Floating Card
+• Top 60%: The photo, full width, rounded top corners, object-fit: cover
+• Uploader credit: &apos;by Meena Aunty&apos; in tiny semi-transparent text on the photo
+• Caption: shown below the photo in italic slate text
+• Upload time and side: &apos;2 minutes ago · Bride&apos;s Side&apos; in muted small text
+• Reaction bar: 5 emoji pills — ❤️ 😂 😍 🔥 🙌 — with counts
+• Comments section: avatar circle with initials + name + comment text
+• Comment input at the bottom for adding a new comment
+
+3.5  Reactions System
+Every photo can be reacted to with one of 5 emojis: ❤️ 😂 😍 🔥 🙌
+
+Reaction Rules
+◆  One reaction per device per photo — not one per emoji, one total
+◆  Tapping a different emoji switches the reaction (old count -1, new count +1)
+◆  Tapping the same emoji again removes the reaction (count -1)
+◆  Reactions are tracked per device ID — no login needed
+◆  Counts update instantly for all viewers via real-time database
+◆  Tap animation: emoji bounces with a scale 1 → 1.3 → 1 spring effect
+◆  A 300ms debounce prevents accidental double-taps
+
+3.6  Comments System
+Guests can leave comments on any photo. Tapping the comment input inside the floating card opens the iOS keyboard.
+
+• Comment input: &apos;Add a comment...&apos; placeholder, text area, send button
+• Name is pre-filled from localStorage — &apos;Commenting as Meena Aunty&apos;
+• If no name set, comment posts as &apos;Anonymous&apos;
+• Comments appear instantly below, newest at the top of the list
+• Each comment shows: avatar circle (initials), name in bold, comment text, time
+
+Comment Limits
+◆  Maximum 2 comments per device per photo
+◆  After 2 comments: friendly message — &apos;You&apos;ve already shared your thoughts 😊&apos;
+◆  A reaction nudge appears: &apos;React instead: ❤️ 😂 😍 🔥 🙌&apos;
+◆  This keeps discussions meaningful and prevents spam flooding
+◆  Limit tracked via device ID + photo ID combination
+
+3.7  Top Moments — Highlights Logic
+The highlights section auto-populates based on reactions. Here is the exact logic:
+
+1.  For each emoji (❤️ 😂 😍 🔥 🙌), find the photo with the highest count of that reaction
+2.  If one photo ranks first for multiple emojis, it appears only in the category where its count is highest
+3.  The next best photo fills the remaining category — ensuring 5 different photos are always shown
+4.  Highlights update in real time — as reactions come in, the top photo may change
+5.  Photos in highlights are excluded from the main bento grid to avoid duplication
+
+3.8  Leaderboard — Bride vs Groom
+A progress bar at the top of the body section shows the live competition between sides:
+• Left side (Bride&apos;s side): total uploads + total reactions received by Bride&apos;s side photos
+• Right side (Groom&apos;s side): same metrics
+• The bar width is proportional — if Bride&apos;s side has 60% of total activity, bar shows 60%
+• Updates in real time as uploads and reactions come in
+• Purely for fun — no personal names, no individual rankings
+• The side is self-selected by the guest during upload
+
+4
+Feature Specification — Admin Side
+Everything the host or admin can do
+
+4.1  Admin Access
+The admin panel is accessed via a private URL — no separate login screen. The URL contains a secret key that grants admin mode:
+weddingsnap.app/rahul-priya-2026/admin?key=SECRET_KEY
+• The secret key is generated when the event is created
+• Only the admin knows this URL — guests never see it
+• The key is stored securely server-side and validated on every admin request
+• Admin mode shows delete and moderation controls layered on top of the normal UI
+
+4.2  Admin Dashboard — Overview
+The admin home shows a summary of the entire event:
+• Total photos uploaded
+• Total comments posted
+• Total reactions given
+• Approximate unique guest count (by unique device IDs)
+• Leaderboard summary with last upload time per side
+• Quick action cards: Manage Photos · Manage Comments · Manage Highlights
+• Recent uploads feed with inline delete buttons
+
+4.3  Photo Management
+The admin can view all photos in a list format (not grid — list gives better control):
+• Each row shows: thumbnail, caption, uploader name, side, upload time
+• Three-dot menu on each row: &apos;Remove from Highlights&apos; and &apos;Delete Photo&apos;
+• Filter tabs to view by side: All · Bride&apos;s Side · Groom&apos;s Side · Friends
+• Deleting a photo removes it from the grid, highlights, and all reactions and comments associated
+• Delete is permanent — no undo
+• If a deleted photo was a highlight, the next best photo auto-fills that highlight slot
+
+4.4  Comment Management
+The admin can view and delete any comment:
+• Comments are organised by photo — admin selects a photo thumbnail to see its comments
+• Each comment shows: avatar, name (or Anonymous), comment text, timestamp
+• Delete button on each comment — immediate, permanent removal
+• Bulk select and delete multiple comments at once
+• Anonymous comments are clearly labelled
+
+4.5  Highlights Management
+While highlights auto-populate by reaction counts, admin can override:
+• Manually pin a specific photo to a highlight slot
+• Remove a photo from highlights without deleting it from the grid
+• Reset all highlights to auto (reverts to reaction-count-based selection)
+
+5
+Complete User Flows
+Step-by-step journeys for every user type
+
+5.1  Guest — First Time Upload Flow
+
+1
+Guest arrives at venue
+Sees a QR code on the table card, invitation, or display screen. Scans it with phone camera.
+
+2
+Website opens
+Browser opens WeddingSnap instantly. Hero header with couple name and slideshow is visible. Page loads in under 2 seconds.
+
+3
+Guest browses briefly
+Scrolls through the bento grid. Sees other guests&apos; photos. Wants to share one.
+
+4
+Taps + Memory button
+Upload sheet slides up. First-time name prompt appears. Guest types &apos;Kavitha&apos; and taps Continue.
+
+5
+Selects photo source
+Taps &apos;Take Photo&apos;. Device camera opens. Guest takes a photo of the dance floor.
+
+6
+Adds details
+Preview screen shows. Guest types caption &apos;Best dance of the night! 💃&apos;. Selects &apos;Bride&apos;s Side&apos;.
+
+7
+Shares memory
+Taps &apos;Share to the Memory Wall →&apos;. Progress bar fills. Success screen appears with confetti.
+
+8
+Photo appears live
+Guest sees their photo at the top of the grid. Other guests on the page see a toast: &apos;New memory just added!&apos;
+
+5.2  Guest — Returning Upload Flow
+From the second upload onwards:
+1
+Guest taps + Memory
+Name is already saved. Sheet opens directly to camera/gallery options. No name prompt.
+
+2
+If within first 2 uploads
+Proceeds immediately — no wait. If 3rd+ upload, checks cooldown timer.
+
+3
+Cooldown active
+If 5-minute gap not passed: bar shows &apos;⏳ Next upload in 2:18&apos;. Guest can browse and react while waiting.
+
+5.3  Guest — Reacting to a Photo
+1
+Taps a photo
+Floating card modal opens with blur background. Photo visible, reactions shown below.
+
+2
+Taps ❤️
+Count increments from 142 to 143 instantly. Emoji bounces. Button highlights in sky blue.
+
+3
+Changes mind, taps 🔥
+❤️ count goes back to 142. 🔥 count increments. Only one reaction active at a time.
+
+5.4  Guest — Commenting
+1
+Opens photo card
+Scrolls to comments section. Taps &apos;Add a comment...&apos; input.
+
+2
+Types comment
+&apos;This moment is so beautiful 😭&apos;. Name &apos;Kavitha&apos; is pre-filled. Taps send.
+
+3
+Comment appears
+Instantly visible in the thread. Other viewers see it in real time.
+
+4
+Tries to post third comment
+Message appears: &apos;You&apos;ve already shared your thoughts on this moment 😊&apos;. Reaction bar shown as alternative.
+
+5.5  Admin — Moderating a Photo
+1
+Admin opens private URL
+Admin panel dashboard loads showing all stats and quick actions.
+
+2
+Goes to Manage Photos
+Sees full list of photos with thumbnails, captions, and upload info.
+
+3
+Finds inappropriate photo
+Taps the three-dot menu. Taps &apos;Delete Photo&apos;. Confirmation dialog appears.
+
+4
+Confirms deletion
+Photo is permanently removed from grid, highlights, and all associated data. If it was a highlight, next best photo fills the slot automatically.
+
+6
+How It Works Behind the Scenes
+The technical architecture explained simply
+
+6.1  System Architecture Overview
+WeddingSnap uses a modern JAMstack architecture — a fast frontend delivered via CDN, a real-time database for live updates, and cloud storage for photos. Here is how each layer works:
+
+Layer
+Technology
+What It Does
+Frontend
+Next.js + Tailwind CSS
+Renders the UI, handles interactions, compresses photos before upload, manages localStorage for device ID and username
+Database
+Supabase (PostgreSQL + Realtime)
+Stores all photo metadata, captions, reactions, comments, device IDs, and leaderboard counts. Real-time subscriptions push updates to all connected clients instantly
+Photo Storage
+Cloudflare R2
+Stores the actual photo files. Photos are served via Cloudflare CDN for fast global delivery. Storage is permanent — files are never automatically deleted
+Hosting
+Vercel
+Hosts the Next.js frontend. Global CDN ensures fast page loads from anywhere. Automatic SSL. Free tier sufficient for wedding scale
+Real-time Updates
+Supabase Realtime (WebSocket)
+When a new photo is uploaded, a database insert triggers a WebSocket event. All connected browsers receive the new photo and update their grid instantly without refreshing
+Image Compression
+Browser-Compress (client-side)
+Before upload, photos are compressed to max 1MB on the device. This reduces upload time and storage costs without requiring server processing
+
+6.2  What Happens When a Guest Uploads a Photo
+Here is the exact sequence of events from tap to the photo appearing on screen:
+
+1
+Guest taps Share Memory
+The frontend reads the photo file from the device
+
+2
+Client-side compression
+The browser compresses the image to under 1MB using the browser-image-compression library. Happens in under 1 second for most phones.
+
+3
+Upload to Cloudflare R2
+The compressed image is uploaded directly to Cloudflare R2 via a signed URL. A unique filename is generated: eventId_timestamp_randomId.jpg
+
+4
+Metadata saved to Supabase
+Once the file upload completes, the frontend inserts a row into the photos table with: photo URL, caption, uploader name, side, device ID, and timestamp.
+
+5
+Real-time broadcast
+Supabase Realtime broadcasts the new row insertion to all connected browsers subscribed to this event&apos;s photo channel.
+
+6
+All browsers update
+Every browser viewing the same event page receives the new photo data and prepends it to the top of the bento grid with a smooth fade-in animation.
+
+7
+Upload burst animation
+The uploading device shows the success screen. The emoji burst fires. The photo count in the stats pill increments by 1.
+
+8
+Toast notification
+Other visitors see a toast: &apos;New memory just added!&apos; for 3 seconds.
+
+6.3  How Real-Time Reactions Work
+1
+Guest taps a reaction emoji
+Frontend sends an upsert to the reactions table: insert a new row OR update existing row for this device ID + photo ID combination
+
+2
+Previous reaction removed
+If the device already had a reaction on this photo, the old one is replaced. Count for old emoji decreases, count for new emoji increases.
+
+3
+Aggregate updated
+Supabase updates the aggregated reaction counts on the photo row (cached counts for performance).
+
+4
+Real-time broadcast
+The updated counts are broadcast to all connected clients. All viewers see the new counts simultaneously.
+
+6.4  How the Highlights Section Works Automatically
+The Top Moments section updates automatically based on reactions. Here is the logic:
+
+• A Supabase database view (or materialized view) runs the following query continuously:
+
+For each emoji type, find the photo_id with MAX(reaction_count) for that emoji_type
+• If one photo is the top for multiple emojis, it keeps the slot for its highest emoji
+• The query runs on every reaction insert and returns 5 distinct photo IDs
+• Results are broadcast via real-time subscription — highlights update live
+• Photos in the highlights array are filtered out of the main bento grid query
+
+6.5  Device Identity — No Login System
+Without login, WeddingSnap identifies devices using a simple anonymous ID system:
+
+• On first visit, the frontend generates a random UUID: e.g. dev_8f3k2a9x
+• This UUID is stored in localStorage on the device
+• It is sent with every upload, reaction, and comment as the device_id field
+• Server-side, all rate limits and duplicate checks use this device_id
+• If localStorage is cleared, the device gets a new ID — acceptable trade-off for no-login
+• The device_id is never shown to the user — it is invisible infrastructure
+• It is not personal data — it identifies a browser instance, not a person
+
+7
+Data &amp; Storage Architecture
+Database tables, storage structure, and data flow
+
+7.1  Database Tables
+
+Events Table
+Table name
+events
+Purpose
+Stores one row per wedding event
+Key fields
+id, couple_name, event_date, location, slug (URL identifier), admin_key (hashed), created_at
+Notes
+slug is the URL-safe event identifier e.g. &apos;rahul-priya-2026&apos;. admin_key is stored as a bcrypt hash.
+
+Photos Table
+Table name
+photos
+Purpose
+Stores metadata for every uploaded photo
+Key fields
+id, event_id, storage_url, caption, uploader_name, side (bride/groom/friends), device_id, is_deleted, created_at
+Notes
+storage_url is the Cloudflare R2 public URL. is_deleted is soft delete — photo stays in storage but is hidden from UI.
+Indexes
+event_id + created_at (for latest-first grid), event_id + is_deleted (for filtering)
+
+Reactions Table
+Table name
+reactions
+Purpose
+Stores one reaction per device per photo
+Key fields
+id, photo_id, device_id, emoji_type (heart/laugh/love/fire/clap), created_at
+Constraint
+UNIQUE on (photo_id, device_id) — enforces one reaction per device per photo
+Notes
+On reaction change: UPDATE the row. On reaction removal: DELETE the row. Counts are aggregated via a view.
+
+Comments Table
+Table name
+comments
+Purpose
+Stores all comments on photos
+Key fields
+id, photo_id, device_id, commenter_name, comment_text, is_deleted, created_at
+Constraint
+Application-level check: max 2 rows per (photo_id, device_id)
+Notes
+is_deleted enables soft delete by admin. Deleted comments are hidden but not removed from database.
+
+Reaction Counts View
+View name
+photo_reaction_counts
+Purpose
+Pre-aggregated reaction totals per photo per emoji for fast reads
+Structure
+photo_id, heart_count, laugh_count, love_count, fire_count, clap_count, total_reactions
+Usage
+Joined onto photos query to avoid counting on every request
+
+7.2  Photo Storage Structure
+Provider
+Cloudflare R2 (S3-compatible object storage)
+Bucket name
+weddingsnap-photos
+Folder structure
+/{event_slug}/{year}/{photo_id}.jpg
+File naming
+Timestamp + random ID to avoid collisions
+Access control
+Public read (photos are viewable by anyone with the URL). Write via signed URLs only.
+Retention
+Permanent — no TTL, no auto-deletion. Files stored indefinitely.
+Max file size (server)
+5MB raw. Client compresses to under 1MB before upload.
+
+8
+Rules, Limits &amp; Spam Control
+All the guardrails that keep the platform clean
+
+Rule
+Value
+Where Enforced
+Max file size (after compression)
+1 MB
+Client-side + server-side validation
+Accepted file types
+JPG, PNG, HEIC, WebP
+Client picker + server MIME type check
+Instant uploads per device
+2 photos
+localStorage counter + Supabase verification
+Upload cooldown after first 2
+5 minutes
+Timestamp in localStorage + server-side check
+Max comments per device per photo
+2 comments
+Server-side COUNT query before insert
+Max reactions per device per photo
+1 reaction (changeable)
+UNIQUE constraint in reactions table
+Reaction debounce (anti-spam tap)
+300ms
+Frontend JavaScript
+Caption character limit
+120 characters
+Frontend counter + server validation
+Comment character limit
+200 characters
+Frontend counter + server validation
+Admin delete: photos
+Permanent, immediate
+Soft delete flag + storage cleanup
+Admin delete: comments
+Permanent, immediate
+Soft delete flag in comments table
+
+9
+UI &amp; Design System
+Colors, typography, and component specifications
+
+9.1  Color Palette
+Role
+Hex Code
+Name
+Used For
+Page background
+#D1E5ED
+Very Light Steel Blue
+Overall page and screen background
+Card surface
+#FFFFFF
+White
+All card, modal, and sheet surfaces
+Primary heading
+#0C2849
+Deep Navy Blue
+Headings, hero background, bottom bar
+Body text
+#1E3752
+Dark Slate Blue
+Body text, secondary labels
+Primary accent
+#609CC0
+Muted Sky Blue
+Buttons, active states, icons
+Secondary accent
+#81AED1
+Soft Periwinkle
+Borders, labels, gradient ends
+Cultural gold
+#C9A84C
+Warm Gold
+Decorative accents, dividers, badges — sparingly
+
+9.2  Typography
+• Couple name: Pinyon Script (Google Fonts) or equivalent elegant script — 48–56px, white
+• Screen titles and H1: SF Pro Display Bold / Cormorant Garamond — 28–32px, navy
+• Section labels: DM Sans Medium — 17px italic, navy
+• Body text and captions: DM Sans Regular — 15px, slate
+• Metadata (time, side): DM Sans Regular — 13px, slate at 60% opacity
+• Category labels: DM Sans Medium — 11px uppercase, periwinkle, letter-spacing 0.1em
+• Counts and stats: Cormorant Garamond — 18–22px, white or navy (serif feel for elegance)
+• Button text: DM Sans Medium — 15px, white
+
+9.3  Key Component Specs
+Cards
+White bg, 16px border radius, box-shadow: 0 4px 16px rgba(0,0,0,0.08), 0.5px border #C5D9E8
+Buttons
+52px height, pill shape (border-radius: 999px), gradient #609CC0 → #81AED1, white text
+Input fields
+52px height, 16px radius, #F4F8FB fill, 0.5px border #81AED1, focus border #609CC0
+Bottom bar
+#0C2849 navy bg, 0.5px top border rgba(129,174,209,0.2), safe area padding bottom
+Floating modal
+White, 24px radius, blur backdrop rgba(12,40,73,0.6), scale spring animation
+Bento grid
+3-column CSS grid, auto-rows 88px, 5px gap, tall = row-span 2, wide = col-span 2
+Reaction pills
+Rounded pill, light blue tinted bg, emoji + count, 300ms bounce on tap
+
+10
+Screen Inventory
+All 11 screens, who uses them, and what they contain
+
+#
+Screen Name
+User
+Key Elements
+S1
+Home — Memory Wall
+Guest
+Hero slideshow, emoji float, stats, leaderboard, highlights, bento grid, bottom bar
+S2
+Upload — Step 1 (Bottom Sheet)
+Guest
+Name input (first time), camera option, gallery option
+S3
+Upload — Step 2 (Preview)
+Guest
+Photo preview, caption input, side selection, share button
+S4
+Upload Success
+Guest
+Celebration card, confetti, emoji burst, photo thumbnail, &apos;Memory is Live!&apos;
+S5
+Photo View — Floating Card Modal
+Guest
+Blurred bg, photo, caption, reactions, comments, left/right navigation
+S6
+Comment Input State
+Guest
+Keyboard open, active input, comment limit message with reaction nudge
+S7
+Upload Cooldown State
+Guest
+Disabled upload bar, countdown timer, friendly message toast
+S8
+Highlights Expanded View
+Guest
+Hero photo, reaction count, comments, other top photos in same category
+S9
+Admin — Dashboard
+Admin
+Stats overview, leaderboard, quick action cards, recent uploads feed
+S10
+Admin — Photo Management
+Admin
+Photo list with filters, delete menu, soft delete control
+S11
+Admin — Comment Management
+Admin
+Comment list per photo, delete buttons, bulk delete, anonymous labelling
+
+11
+Future Roadmap
+Phase 2 and Phase 3 features for scaling WeddingSnap
+
+Phase 1 — MVP (Current)
+Build this first
+◆  Upload flow (camera + gallery)
+◆  Bento grid gallery with real-time updates
+◆  Reactions (5 emojis, one per device per photo)
+◆  Comments (2 per device per photo)
+◆  Highlights section (top 5 moments)
+◆  Bride vs Groom leaderboard
+◆  Admin panel (delete photos and comments)
+◆  Upload cooldown and spam control
+
+Phase 2 — Post-Launch Enhancements
+Add after launch
+◆  Moment tags on upload: Haldi, Mehendi, Ceremony, Dance, Fun — with filter tabs on grid
+◆  Download all photos — couple receives a ZIP of all memories after the event
+◆  QR code generator — admin creates event and gets a print-ready QR code PDF
+◆  Photo of the Hour — most-reacted photo in last 60 mins gets a banner automatically
+◆  Share individual photo — each photo gets a direct shareable link for WhatsApp
+◆  Live display mode — a fullscreen TV-friendly view for the venue screen
+
+Phase 3 — Platform Expansion
+Scale to an event platform
+◆  Multi-event support — one admin account, multiple events (college fests, trips, parties)
+◆  Custom branding — couple uploads their own logo or wedding logo for the header
+◆  Analytics dashboard — heat maps of engagement, most-active hour, top uploaders
+◆  Video support — short clips (under 15 seconds) alongside photos
+◆  White-label offering — sell to wedding planners who set up events for their clients
+◆  Guestbook mode — text-only memory cards for guests who didn&apos;t take photos
+
+12
+Glossary
+Key terms used throughout this document
+
+Term
+Definition
+Bento Grid
+A dynamic mixed-size photo grid layout where tiles vary between square, tall (2 rows), and wide (2 columns) — inspired by iOS photo gallery
+Device ID
+A randomly generated UUID stored in the browser&apos;s localStorage to identify a device session without requiring login
+Highlights
+The 5 horizontally scrollable cards at the top of the page showing the top photo per reaction emoji category
+Leaderboard
+The Bride vs Groom progress bar showing which side of the family has uploaded more photos and received more reactions
+localStorage
+A browser storage mechanism that persists data on a device even after the browser is closed — used to store device ID and username
+Soft Delete
+Marking a record as deleted in the database without physically removing it — the photo is hidden from the UI but the row remains in the database
+Supabase Realtime
+A WebSocket-based system that pushes database changes to all connected browsers instantly — used for live photo, reaction, and comment updates
+Signed URL
+A temporary, secure URL generated by the server that allows a client to upload directly to Cloudflare R2 without exposing storage credentials
+PWA
+Progressive Web App — a website that can be installed on a phone&apos;s home screen and behaves like a native app without requiring the App Store
+Upsert
+A database operation that inserts a new row if it doesn&apos;t exist, or updates the existing row if it does — used for the one-reaction-per-device rule
+
+WeddingSnap — Product Requirements Document v1.0
+Confidential · For internal use only · 2026
+

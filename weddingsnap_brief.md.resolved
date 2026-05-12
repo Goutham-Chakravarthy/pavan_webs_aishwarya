@@ -1,0 +1,56 @@
+# WeddingSnap: Project Brief
+
+**WeddingSnap** is a mobile-first, zero-friction web application designed for weddings and events. It acts as a live, shared memory wall where guests can seamlessly upload photos, react, and comment without needing to download an app or create an account. 
+
+## 🎯 Core Value Proposition
+- **No Login Required**: Guests scan a QR code and immediately start interacting.
+- **Instant Live Gallery**: A "Bento Grid" style gallery updates in real-time as photos are uploaded.
+- **High Engagement**: Features like emoji reactions, comments, and a "Bride vs. Groom" leaderboard encourage participation.
+
+## ✨ Key Features (Phase 1 MVP)
+1. **Frictionless Upload Flow**:
+   - Guests provide a name (once per device, saved in `localStorage`).
+   - Photos can be taken directly via camera or chosen from the gallery.
+   - Upload cooldowns (max 2 instant uploads, then a 5-minute wait) and size limits (client-side compression < 1MB) prevent spam.
+2. **Dynamic Bento Grid Gallery**:
+   - A mixed-size photo grid (square, tall, wide) inspired by iOS galleries.
+   - Real-time updates pushed to all connected screens.
+3. **Interactive Elements**:
+   - **Reactions**: 5 distinct emojis (Heart, Laugh, Love, Fire, Clap). Limited to one reaction per device per photo.
+   - **Comments**: Guests can leave up to 2 comments per photo.
+4. **Highlights & Leaderboard**:
+   - Top 5 most reacted photos appear in a horizontal scrollable "Highlights" section.
+   - A progress bar shows which side (Bride vs. Groom) has uploaded more memories.
+5. **Admin Dashboard**:
+   - Capabilities for event admins to view stats and soft-delete inappropriate photos or comments.
+
+## 🎨 Design System & UI
+The design focuses on a premium, elegant wedding aesthetic.
+- **Color Palette**:
+  - Background: Very Light Steel Blue (`#D1E5ED`)
+  - Primary Heading/Bottom Bar: Deep Navy Blue (`#0C2849`)
+  - Primary Accent/Buttons: Muted Sky Blue (`#609CC0` to `#81AED1` gradient)
+  - Cultural Accent: Warm Gold (`#C9A84C`)
+- **Typography**:
+  - Pinyon Script (or elegant script) for the couple's name.
+  - SF Pro Display / Cormorant Garamond for headings.
+  - DM Sans for body text and UI labels.
+- **Component Styling**:
+  - Cards feature a white background, 16px border radius, and soft shadows.
+  - Pill-shaped gradient buttons.
+  - Floating modals with blurred backdrops for photo viewing.
+
+## 🛠 Target Technical Architecture (Per PRD)
+While our current local prototype uses Express and EJS, the full PRD targets a more robust, scalable stack:
+- **Backend & Realtime Data**: Supabase (PostgreSQL + Realtime WebSockets)
+- **Storage**: Cloudflare R2 (S3-compatible) for permanent photo retention.
+- **Client Identification**: `localStorage` (Device ID UUID) instead of traditional auth.
+- **Spam Control**: Database constraints (UNIQUE on reactions, COUNT limits on comments) and frontend debouncing.
+
+---
+
+### 🚀 Next Steps for Implementation
+Our current local setup (Node/Express) is a great foundation. Based on this brief, we can evolve the app by tackling one of these areas next:
+1. **UI & Design Overhaul**: Update our `style.css` and `index.ejs` to use the Bento Grid layout, premium fonts (Pinyon Script, Cormorant Garamond), and the exact color palette.
+2. **Spam & Rate Limiting**: Implement the `localStorage` Device ID and the 5-minute upload cooldown logic.
+3. **Reactions & Highlights**: Expand our basic reaction system to match the PRD (5 emojis, unique per device) and build the Highlights UI.

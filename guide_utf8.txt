@@ -1,0 +1,1495 @@
+﻿POW! ZAP! CLICK!
+
+WEDDINGSNAP
+COMIC UNIVERSE
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+UI DESIGN GUIDE FOR GOOGLE STITCH
+
+Comic Book · Video Game · Wedding Memories · All In One!
+
+11 SCREENS  ·  FULL STITCH PROMPTS  ·  PIXEL-PERFECT SPECS
+
+Written by a Senior Full-Stack Developer + iOS UX Designer
+
+⚡ HOW TO USE THIS GUIDE
+
+STEP 1: Open Google Stitch AI at stitch.withgoogle.com
+STEP 2: Paste the MASTER SYSTEM PROMPT first — sets the entire comic design system
+STEP 3: Paste ONE SCREEN PROMPT at a time. S1 first, then S2, etc.
+STEP 4: Use the POWER-UP PROMPTS at the end of each screen if Stitch drifts
+STEP 5: From S2 onwards, end prompts with: &apos;Match exact visual language from Screen S1&apos;
+
+CHAPTER 01
+THE COMIC UNIVERSE
+Vision, Aesthetic DNA &amp; Design Philosophy
+
+1.1  THE BIG IDEA — WHY COMIC + WEDDING?
+WeddingSnap&apos;s Comic Universe theme smashes two worlds together: the emotional warmth of a South Indian wedding and the bold, kinetic energy of a comic book / video game UI. Think Batman meets Baraat. Marvel meets Mehendi. Every screen should feel like an action panel — bold borders, halftone textures, speech bubbles for captions, and POW! moments when a guest uploads a photo.
+
+The result is NOT a generic &apos;fun&apos; design. It is a premium, intentional, culturally rooted comic aesthetic that makes guests feel like HEROES in the wedding story.
+
+1.2  AESTHETIC DNA
+
+COMIC BOOK PILLARS
+
+Bold black ink outlines on every card and panel
+Halftone dot pattern (Ben-Day dots) as background texture at 8% opacity
+Speech bubbles for captions and comments
+Action word panels: POW!, ZAP!, CLICK!, SNAP!, BOOM!
+Panel-style grid layouts — like comic book pages
+High-contrast yellow, red, blue colour blocking
+Hand-lettering style fonts for headings
+Starburst / explosion shapes for highlights and badges
+VIDEO GAME PILLARS
+
+XP bar for Bride vs Groom leaderboard
+Achievement badges on uploads: &apos;FIRST UPLOAD!&apos; &apos;COMBO x3!&apos;
+Pixel-art style reaction counters
+Health-bar style progress indicators
+Level-up animation on upload success
+Controller / gamepad icon on the upload button
+Score ticker in the stats section
+Boss battle frame for the admin panel
+
+1.3  THE GOLDEN RULE
+💬 SENIOR DESIGNER
+Every screen is a PANEL in the wedding comic book. The couple are the HERO DUO. Guests are SUPPORTING CHARACTERS. Reactions are POWER MOVES. The admin is the DIRECTOR behind the scenes. Never let a screen feel flat — every pixel should have comic book ENERGY.
+
+CHAPTER 02
+THE COLOUR ARSENAL
+Comic Theme Color System — Never Deviate
+
+These are the ONLY colours allowed in the comic universe. They replace the original WeddingSnap palette entirely. Every hex code is battle-tested for comic book contrast and mobile screen legibility.
+
+2.1  PRIMARY BATTLE PALETTE
+
+ 
+#0D0D0D
+Ink Black
+All card borders, panel outlines, text strokes — the comic ink
+
+ 
+#FFE31A
+Boom Yellow
+Hero backgrounds, CTA buttons, achievement badges, speech bubbles
+
+ 
+#E8162B
+POW! Red
+Action accents, alert states, delete buttons, Bride-side colour
+
+ 
+#0047AB
+ZAP! Blue
+Primary UI, Groom-side colour, nav bars, info panels
+
+ 
+#FF6B9D
+Kapow! Pink
+Reaction pills, love reactions, upload success shimmer
+
+ 
+#00C853
+Level-Up Green
+Upload success, active states, positive confirmations
+
+ 
+#FF6B00
+Wham! Orange
+Warning states, cooldown timer, power-up prompts
+
+ 
+#6B00D4
+Mystery Purple
+Photo view modals, comment sections, admin highlights
+
+2.2  SURFACE PALETTE
+
+ 
+#F5F0E8
+Panel Parchment
+Card backgrounds — cream/aged paper comic feel
+
+ 
+#FFFDE7
+Script Cream
+Input fields, sheet backgrounds, soft surfaces
+
+ 
+#FFFFFF
+Pure White
+Modal overlays, spotlight moments, clean panels
+
+2.3  COLOUR USAGE RULES
+ELEMENT
+COLOUR
+NOTES
+Card / Panel Border
+#0D0D0D  Ink Black
+Always 3-4px thick — the comic ink line
+Background Texture
+#FFE31A  Boom Yellow 8%
+Halftone dots at ultra-low opacity behind page bg
+Page Background
+#F5F0E8  Panel Parchment
+Warm cream — aged comic paper feel
+Primary CTA Button
+#FFE31A → #FF6B00
+Yellow to Orange gradient — POW! energy
+Bride Side Colour
+#E8162B  POW! Red
+All bride-side UI elements
+Groom Side Colour
+#0047AB  ZAP! Blue
+All groom-side UI elements
+Admin Nav Bar
+#0D0D0D  Ink Black
+Director&apos;s HQ — black command centre
+Upload Success BG
+#00C853  Level-Up Green
+Celebration state background
+Reaction Pills
+#FF6B9D  Kapow! Pink
+Emoji pills — active/selected state
+Comment Bubbles
+#FFFDE7  Script Cream
+Speech bubble fill
+
+CHAPTER 03
+LETTERING SYSTEM
+Comic Book Typography — Every Font Has a Role
+
+TYPOGRAPHY ROLE
+FONT
+SIZE
+COLOUR
+NOTES
+Couple Name (Hero Title)
+Bangers (Google Fonts)
+52-60pt
+Boom Yellow + Black stroke
+THE big superhero moment font
+Screen Titles / Chapter Headers
+Bangers
+32-40pt
+Ink Black or ZAP! Blue
+Feels like comic panel headers
+Section Labels
+Oswald Bold
+18-22pt
+POW! Red — ALL CAPS
+Newspaper headline energy
+Action Words (POW/ZAP)
+Bangers
+36-48pt
+Rotated, bold, high contrast
+Impact moments only
+Body / Caption Text
+Comic Neue Bold
+15-17pt
+Ink Black
+The &apos;hand-lettered&apos; body font
+Comment Text
+Comic Neue Regular
+15pt
+Dark navy  #0D0D0D
+Speech bubble content
+Stats / Counters
+Orbitron
+20-28pt
+Boom Yellow on dark bg
+Video game score aesthetic
+Button Labels
+Oswald Bold
+15pt
+Ink Black or White
+ALL CAPS always
+Metadata / Timestamps
+Courier New
+12pt
+50% opacity Ink Black
+Like comic print notes
+Admin / System Labels
+Oswald Medium
+11pt
+#0047AB  ZAP! Blue CAPS
+Control panel labelling
+
+💬 TYPOGRAPHY RULE
+All Google Fonts used: Bangers, Oswald, Comic Neue, Orbitron. Import all four at the start of your Stitch session. Bangers is the HERO font — it should appear on every screen at least once.
+
+CHAPTER 04
+THE COMPONENT ARSENAL
+Every UI Building Block — Comic Edition
+
+4.1  COMIC PANELS (CARDS)
+PROPERTY
+VALUE
+Background
+#F5F0E8 Panel Parchment
+Border
+3px solid #0D0D0D Ink Black
+Border Radius
+8px — slightly rounded, not pill
+Shadow
+4px 4px 0px #0D0D0D — hard comic shadow (no blur!)
+Inner texture
+Halftone dot SVG at 5% opacity over card bg
+Hover state
+Shadow shifts to 6px 6px 0px #0D0D0D
+Tap/Active state
+Scale 0.97, shadow collapses to 2px 2px — pressed ink feel
+
+4.2  CTA BUTTONS
+PROPERTY
+VALUE
+Height
+52pt
+Shape
+8px radius — NOT pill. Pill is too soft for comic style
+Background
+Gradient #FFE31A → #FF6B00 (Yellow to Orange)
+Border
+3px solid #0D0D0D
+Shadow
+4px 4px 0px #0D0D0D — hard offset shadow
+Text style
+Oswald Bold, 15pt, ALL CAPS, #0D0D0D Ink Black
+Action word
+Optional: tiny &apos;ZAP!&apos; or &apos;SNAP!&apos; above button in Bangers 10pt
+Pressed state
+Shadow: 2px 2px 0px — button &apos;depresses&apos; into page
+Upload CTA specific
+&apos;📷 SNAP A MEMORY!&apos; — gamepad emoji optional
+
+4.3  SPEECH BUBBLES (CAPTIONS &amp; COMMENTS)
+PROPERTY
+VALUE
+Shape
+Rounded rect with bottom-left pointer tail for comments
+Background
+#FFFDE7 Script Cream
+Border
+2.5px solid #0D0D0D
+Shadow
+3px 3px 0px #0D0D0D
+Pointer
+8pt triangle at bottom-left pointing down-left (standard comic bubble)
+Font
+Comic Neue Bold, 15pt, #0D0D0D
+Caption bubbles
+No pointer tail — centred rectangular bubble
+Thought bubbles
+For anonymous comments — dotted border, circle chain pointer
+
+4.4  REACTION PILLS
+PROPERTY
+VALUE
+Default state
+#FFFDE7 bg, #0D0D0D border 2px, 8px radius
+Selected/Active
+#FF6B9D Kapow! Pink bg, white emoji + count, 2px black border
+Tap animation
+Scale 1 → 1.4 → 1 with rotation ±15° — comic KA-POW spin
+Count font
+Orbitron Bold — video game score style
+Emoji size
+18pt inside pill
+Debounce
+300ms — prevents accidental double-tap
+
+4.5  BENTO GRID / PANEL LAYOUT
+PROPERTY
+VALUE
+Layout style
+Comic book page panel layout — irregular sizes, thick ink borders
+Gap
+6px — thick enough to feel like printed gutter between panels
+Gap colour
+#0D0D0D Ink Black — the gap IS the comic ink border
+Tall tile
+2 rows — portrait panel
+Wide tile
+2 cols — landscape panel
+Caption style
+Speech bubble overlay at bottom of tile
+&apos;NEW&apos; badge
+Starburst shape, #FFE31A, &apos;NEW!&apos; in Bangers — like a comic store sticker
+Tile tap state
+Brief scale 0.96 + inner glow — selecting a panel effect
+
+4.6  BOTTOM ACTION BAR
+PROPERTY
+VALUE
+Background
+#0D0D0D Ink Black — dark command strip
+Top border
+3px solid #FFE31A Boom Yellow — comic panel divider
+Camera button
+36pt circle, #FFE31A bg, #0D0D0D border 2px, black camera icon
+Caption input
+#1A1A2E dark navy bg, yellow border 1px, #FFE31A placeholder text
+Upload CTA
+Yellow-orange gradient pill, black text, hard shadow, &apos;SNAP!&apos; label
+Cooldown state
+Red pulse animation, orange timer in Orbitron font
+
+4.7  MODALS &amp; SHEETS
+PROPERTY
+VALUE
+Backdrop
+rgba(0,0,0,0.85) + halftone dot overlay — newspaper printing effect
+Sheet background
+#F5F0E8 Panel Parchment
+Sheet border-top
+4px solid #FFE31A — yellow panel entry line
+Border radius top
+16px — sheets round at top
+Drag handle
+48px × 5px, #0D0D0D, rounded — like a comic panel grip
+Header style
+Bangers font, large, with POW!-style decorative word
+Shadow above sheet
+0 -8px 0px #FFE31A — yellow glow rim
+
+CHAPTER 05
+MASTER SYSTEM PROMPT
+Paste This ONCE at the Start of Every Stitch Session
+
+This is the foundation. Do not skip this. Paste the entire block below before generating any individual screen.
+
+MASTER SYSTEM PROMPT — WEDDINGSNAP COMIC UNIVERSE
+
+You are a senior iOS UI designer and comic book art director with 10+ years experience
+at a top-tier product studio that ships to the App Store.
+
+Design every screen as if it is BOTH a comic book panel AND a real iOS app.
+Every pixel must carry comic book energy while remaining fully functional.
+
+PRODUCT: WeddingSnap — a no-login wedding memory wall web app.
+PLATFORM: Mobile web, iPhone 14 Pro (390×844pt). PWA.
+THEME: Comic Book + Video Game + South Indian Wedding. Never generic.
+
+══ STRICT COLOUR SYSTEM ══ (NEVER deviate — these ARE the comic palette)
+
+Page Background    →  #F5F0E8  (Panel Parchment — aged comic paper)
+Card / Panel Bg    →  #FFFDE7  (Script Cream — inner panel fill)
+Ink Outlines       →  #0D0D0D  (Ink Black — all borders and strokes)
+Hero / POW!        →  #FFE31A  (Boom Yellow — CTA and hero colour)
+Action Red         →  #E8162B  (POW! Red — accents, bride side)
+Action Blue        →  #0047AB  (ZAP! Blue — nav, info, groom side)
+Love / Reaction    →  #FF6B9D  (Kapow! Pink — reaction pills)
+Success / Level-Up →  #00C853  (Level-Up Green — upload success)
+Cooldown / Warning →  #FF6B00  (Wham! Orange — timers, warnings)
+Admin Dark         →  #0D0D0D  (Ink Black — admin command bar)
+
+══ TYPOGRAPHY ══
+
+Couple Name        →  Bangers (Google Font)     52-60pt  #FFE31A + black text-stroke 2px
+Screen Titles      →  Bangers                   36-44pt  #0D0D0D or #0047AB
+Action Words       →  Bangers                   36-48pt  Rotated ±10°, high contrast
+Section Labels     →  Oswald Bold               18-22pt  #E8162B UPPERCASE
+Body Text          →  Comic Neue Bold           15-17pt  #0D0D0D
+Comments           →  Comic Neue Regular        15pt     #0D0D0D
+Stats/Counters     →  Orbitron Bold             20-28pt  #FFE31A on dark bg
+Button Labels      →  Oswald Bold               15pt     #0D0D0D UPPERCASE
+Metadata           →  Courier New Regular       12pt     50% opacity
+
+══ COMPONENT SPECS ══
+
+Comic Panels (Cards)
+  → Background: #FFFDE7 / #F5F0E8
+  → Border: 3px solid #0D0D0D
+  → Shadow: 4px 4px 0px #0D0D0D  (hard offset — NO blur)
+  → Halftone dot texture at 5% opacity inside cards
+
+CTA Buttons
+  → Height 52pt, 8px radius (not pill)
+  → Gradient: #FFE31A → #FF6B00
+  → Border: 3px #0D0D0D
+  → Shadow: 4px 4px 0px #0D0D0D
+  → Font: Oswald Bold UPPERCASE
+
+Speech Bubbles (captions/comments)
+  → #FFFDE7 bg, 2.5px #0D0D0D border
+  → Shadow: 3px 3px 0px #0D0D0D
+  → Comic Neue font
+  → Pointer tail on comments (bottom-left facing down-left)
+
+Reaction Pills
+  → Default: #FFFDE7 bg, #0D0D0D border 2px, 8px radius
+  → Selected: #FF6B9D bg, white text
+  → Orbitron for counts
+
+Bento Grid
+  → 6px #0D0D0D gap (the ink gutter between panels)
+  → Caption as speech bubble overlay
+  → &apos;NEW!&apos; badge: starburst shape, #FFE31A
+
+Bottom Bar
+  → #0D0D0D bg, 3px #FFE31A top border
+  → Upload button: yellow-orange gradient, hard black shadow
+
+Modals/Sheets
+  → rgba(0,0,0,0.85) backdrop with halftone overlay
+  → 4px #FFE31A top border on sheets
+  → Bangers font for sheet titles
+
+══ COMIC AESTHETIC RULES ══
+
+◆ EVERY card must have a 3-4px solid #0D0D0D border (the ink line)
+◆ EVERY card must have a 4px 4px 0px #0D0D0D hard shadow (no blur, no spread)
+◆ Background must have a subtle halftone dot pattern (Ben-Day dots) at 6-8% opacity
+◆ Hero section must feel like a comic book cover panel — high contrast, bold text
+◆ Halftone texture on photo overlays — like photos printed in a comic book
+◆ Action words (POW!, ZAP!, SNAP!, BOOM!) used as decorative elements on key moments
+◆ Speech bubble shapes for captions and comments at all times
+◆ Couple name in Bangers font with yellow + black text-stroke — HERO logo treatment
+◆ Starburst badges for NEW items and highlights (not pill/rounded badges)
+◆ Bottom bar feels like an arcade cabinet control strip
+
+══ CULTURAL FUSION RULE ══
+
+This is a SOUTH INDIAN WEDDING. The comic theme does not erase the cultural warmth.
+Cultural elements appear AS comic panels. For example:
+  - Mehendi pattern replaces halftone dots in the hero section at 8% opacity
+  - Wedding motifs (flowers, elephants, diyas) appear as comic panel decoration
+  - Couple name in Bangers still reads like a hero title but with South Indian warmth
+  - The LIVE badge becomes a &apos;LIVE QUEST&apos; badge
+
+══ DEVICE FRAME ══
+
+iPhone 14 Pro, Dynamic Island visible.
+Safe area: top 59pt, bottom 34pt.
+Status bar: white text on dark background (comics always dark/dramatic at top).
+
+══ OUTPUT QUALITY ══
+
+High-fidelity. Production-ready. Pixel-perfect.
+Use realistic placeholder content: Indian names, real wedding captions.
+Rahul &amp; Priya, February 14 2026, Chennai, Tamil Nadu.
+No lorem ipsum. No placeholder boxes. Real wedding comic content only.
+Every screen must look like a real App Store screenshot of a premium app,
+rendered in a bold, confident, comic book art style.
+
+CHAPTER 06
+THE 11 PANELS
+Individual Screen Prompts — The Comic Book Unfolds
+
+S1
+GUEST
+HOME SCREEN — MEMORY WALL
+&quot;The wall that starts the adventure!&quot;
+
+🎬  WHAT THIS SCREEN CONTAINS
+
+ZONE
+ELEMENT
+COMIC TREATMENT
+Hero
+Slideshow + couple name
+Comic book cover panel — Bangers font, halftone overlay on photo
+Stats
+3-number pill
+Video game HUD bar — Orbitron font, dark panel bg
+Leaderboard
+Bride vs Groom bar
+XP battle bar — red vs blue with health-bar animation
+Highlights
+5 scroll cards
+Comic &apos;Featured Panels&apos; strip — starburst on top card
+Bento Grid
+Mixed tile gallery
+Comic book page layout — thick ink borders as gutters
+Bottom Bar
+Camera + input + CTA
+Arcade cabinet control strip — yellow POW! button
+
+💬  GOOGLE STITCH PROMPT — S1
+
+Generate Screen S1: HOME SCREEN — MEMORY WALL for WeddingSnap Comic Universe.
+Apply the full Master System Prompt above. Every spec below is exact and non-negotiable.
+
+━━ SECTION 1: HERO HEADER — THE COMIC COVER PANEL (290pt height) ━━
+
+BACKGROUND:
+  Full-bleed South Indian wedding photo. Couple in traditional bridal attire.
+  Warm golden hour lighting. Cinematic quality.
+  Over the photo: halftone dot pattern (Ben-Day dots) at 12% opacity — #0D0D0D.
+  This makes the photo feel like it was printed on comic book paper.
+  Bottom gradient: rgba(13,13,13,0.0) → rgba(13,13,13,0.90) — deep black fade.
+  Over gradient at bottom: thin Mehendi/paisley pattern motif at 8% opacity #FFE31A.
+
+ACTION WORD DECORATION:
+  Top-right corner: &apos;SNAP!&apos; in Bangers 36pt, #FFE31A, rotated +12°, with black text-stroke 2px.
+  This floats over the hero like a comic SFX text.
+
+TOP ROW (y=52pt from top):
+  LEFT: &apos;LIVE QUEST&apos; badge — #E8162B bg, 2px #FFE31A border, Bangers 11pt #FFE31A.
+        Pulsing red dot to the left of text. Width auto, padding 0 10pt.
+  RIGHT: Two square icon buttons (28pt), #0D0D0D bg, 2px #FFE31A border, no radius.
+         Comic panel button style. Left: search icon #FFE31A. Right: info icon #FFE31A.
+
+COUPLE NAME BLOCK (vertically centered):
+  Line 1: &apos;WEDDING MEMORIES&apos; — 9pt Oswald, #FFE31A 70%, letter-spacing +4, UPPERCASE.
+  Line 2: &apos;RAHUL &amp; PRIYA&apos; — 54pt Bangers, #FFE31A with 3px #0D0D0D text-stroke.
+           The &apos;&amp;&apos; in #FF6B9D Kapow! Pink.
+  Line 3: Comic style divider — double line with 5-pointed star ★ center, #FFE31A.
+  Line 4: &apos;February 14, 2026  ·  Chennai, Tamil Nadu&apos;
+           11pt Courier New, #FFFDE7 55% opacity.
+
+STATS HUD BAR (bottom of hero, overlapping body — video game HUD style):
+  Full width minus 24pt margins. Height 60pt.
+  Background: #0D0D0D. Border: 2px solid #FFE31A.
+  Shadow: 4px 4px 0px #E8162B (hard comic shadow in red).
+  Three equal columns divided by 2px #FFE31A vertical lines:
+    Col 1: &apos;148&apos; — 24pt Orbitron Bold #FFE31A.  &apos;MEMORIES&apos; — 9pt Oswald #FF6B9D below.
+    Col 2: &apos;912&apos; — 24pt Orbitron Bold #FFE31A.  &apos;REACTIONS&apos; — 9pt Oswald #FF6B9D below.
+    Col 3: &apos;203&apos; — 24pt Orbitron Bold #FFE31A.  &apos;COMMENTS&apos; — 9pt Oswald #FF6B9D below.
+  Left edge: small joystick / controller pixel icon, 14pt, #FFE31A.
+
+━━ SECTION 2: XP BATTLE BAR — LEADERBOARD ━━
+
+  Comic panel card. #F5F0E8 bg. 3px #0D0D0D border. 4px 4px 0 #0D0D0D shadow.
+  Margin 12pt horizontal, 12pt top.
+
+  TOP ROW:
+    LEFT: &apos;WHOSE SIDE WINS THE XP?&apos; — 9pt Oswald Bold, #E8162B, letter-spacing +2.
+    RIGHT: Small &apos;LIVE BATTLE!&apos; starburst badge — #FFE31A bg, #0D0D0D text Bangers 9pt.
+
+  XP BAR (health-bar style):
+    Height 30pt. 0 border-radius (flat, angular — game style). 2px #0D0D0D border.
+    LEFT (57%): #E8162B POW! Red gradient. Text: &apos;💍 BRIDE · 86 XP&apos; Oswald 10pt white.
+    RIGHT (43%): #0047AB ZAP! Blue solid. Text: &apos;62 XP · GROOM 🤵&apos; Oswald 10pt white 60%.
+    Divider between sides: 3px #FFE31A — the battle line.
+
+  BOTTOM:
+    LEFT: &apos;940 reactions&apos; — Courier New 10pt, #0D0D0D 45%.
+    RIGHT: &apos;870 reactions&apos; — same, right-aligned.
+
+━━ SECTION 3: FEATURED PANELS — HIGHLIGHTS ━━
+
+  Section header:
+    LEFT: &apos;⭐ TOP MOMENTS&apos; — 20pt Oswald Bold, #E8162B.
+    RIGHT: &apos;VIEW ALL →&apos; — 11pt Oswald, #0047AB.
+
+  HORIZONTAL SCROLL — show 3.5 cards:
+  Each card: 90pt wide × 112pt tall. 0px radius (angular comic panel).
+  Border: 3px solid #0D0D0D. Shadow: 3px 3px 0px #0D0D0D.
+
+  Card 1 (❤️): Bride &amp; groom tender moment.
+    Starburst badge top-right: #FFE31A, &apos;TOP!&apos; Bangers 8pt.
+    Bottom: speech bubble overlay — &apos;142&apos; Orbitron 11pt #FFE31A.
+    Emoji: ❤️ 16pt. Label: &apos;MOST LOVED&apos; Oswald 8pt white.
+
+  Card 2 (😂): Candid guests laughing.
+    Bottom: &apos;98&apos; Orbitron. Label: &apos;FUNNIEST&apos;.
+
+  Card 3 (😍): Beautiful couple portrait.
+    Bottom: &apos;87&apos;. Label: &apos;CUTEST&apos;.
+
+  Card 4 (🔥): Energetic dance floor.
+    Bottom: &apos;120&apos;. Label: &apos;MOST LIT&apos;.
+
+  Card 5 (🙌): Family group photo.
+    Bottom: &apos;65&apos;. Label: &apos;CELEBRATED&apos;.
+
+━━ SECTION 4: THE COMIC PAGE — BENTO GRID ━━
+
+  Section header:
+    LEFT: &apos;📸 ALL MEMORIES&apos; — 20pt Oswald Bold, #0047AB.
+    RIGHT: &apos;148 PANELS&apos; — 11pt Oswald, #E8162B.
+
+  GRID: 3 columns, 6px #0D0D0D gap, 88pt auto-row-height.
+  The 6px black gap IS the comic panel gutter — thick ink border between panels.
+
+  Cell 1 TALL (col 1, 2 rows): Bride getting ready.
+    &apos;NEW!&apos; starburst badge: #FFE31A, Bangers 8pt, top-right.
+    Caption speech bubble: &apos;First dance ✨&apos; Comic Neue 8pt + &apos;❤️ 142&apos; Orbitron 7pt.
+
+  Cell 2 NORMAL (col 2, row 1): Selfie, smiling.
+    Caption: &apos;The vows 🌸&apos;
+
+  Cell 3 NORMAL (col 3, row 1): Mehendi close-up.
+    Caption: &apos;Mehendi 🎨&apos; + &apos;😍 54&apos; Orbitron.
+
+  Cell 4 WIDE (col 2+3, row 2): Family group.
+    Caption: &apos;Family portrait 👨‍👩‍👧‍👦&apos; + &apos;🙌 91  ❤️ 73&apos;.
+
+  Cell 5 NORMAL (col 1, row 3): Dance floor, colourful lights.
+    &apos;NEW!&apos; starburst. Caption: &apos;Sangeet 🎶&apos;.
+
+  Cell 6 NORMAL (col 2, row 3): Haldi ceremony.
+    Caption: &apos;Haldi 🌼&apos; + &apos;😂 67&apos;.
+
+  Cell 7 NORMAL (col 3, row 3): Reception decor.
+    Caption: &apos;Reception ✨&apos;.
+
+  ALL TILES: 0px border-radius (comic panel angular).
+  Bottom: halftone pattern gradient into speech bubble caption.
+  Caption speech bubble: #0D0D0D bg, #FFE31A text Comic Neue 8pt.
+
+━━ SECTION 5: ARCADE CONTROL STRIP — BOTTOM BAR ━━
+
+  Height 68pt + 34pt safe area. Background: #0D0D0D Ink Black.
+  Top border: 3px solid #FFE31A Boom Yellow — the panel entry line.
+
+  LEFT: Camera icon circle. 40pt. #FFE31A bg. 2px #0D0D0D border. 0px radius (square-ish).
+        Pixel-art style camera icon, #0D0D0D, 18pt.
+
+  CENTER: Caption input. #1A1A2E very dark bg. 1px #FFE31A border. 8px radius.
+          Height 38pt. Placeholder: &apos;type your story...&apos; Courier New 11pt #FFE31A 40%.
+
+  RIGHT: &apos;SNAP! +&apos; button. #FFE31A → #FF6B00 gradient.
+         3px #0D0D0D border. 4px 4px 0 #0D0D0D hard shadow.
+         Text: &apos;SNAP! +&apos; Oswald Bold 11pt #0D0D0D.
+
+━━ FINAL FEEL CHECK ━━
+  This should feel like MARVEL or DC App Store screenshot quality.
+  Bold. Kinetic. Culturally warm. Like a comic book you want to read.
+
+🔧 POWER-UP PROMPTS (if Stitch needs fixing)
+► If the halftone looks too strong: &apos;Reduce Ben-Day dot opacity to 6% — subtle texture, not overwhelming&apos;
+► If the hero feels too dark: &apos;Lighten the black gradient overlay, keep halftone dot texture but increase photo brightness&apos;
+► If Bangers font is too heavy: &apos;Add 1px letter-spacing to Bangers, reduce text-stroke to 1.5px&apos;
+► If the grid looks too geometric: &apos;Make one extra tile wide or tall — irregular panel layout like a real comic page&apos;
+► If cultural feel is lost: &apos;Add Mehendi vine pattern at 10% opacity in the hero bottom overlay, use #FFE31A&apos;
+
+S2
+GUEST
+UPLOAD SHEET — STEP 1
+&quot;Choose your weapon: camera or gallery!&quot;
+
+🎬  WHAT THIS SCREEN CONTAINS
+
+ZONE
+ELEMENT
+COMIC TREATMENT
+Background
+Blurred home screen
+Halftone ink wash overlay — like printing behind a panel
+Sheet
+Bottom panel slide-up
+Comic panel rising from the page with yellow top border
+Name Input
+First-time prompt
+Speech bubble input — &apos;Hey Hero, what&apos;s your name?&apos;
+Camera Card
+Take photo
+Angular panel with camera icon and &apos;SHOOT!&apos; label
+Gallery Card
+Choose photo
+Panel with gallery icon and &apos;PICK!&apos; label
+
+💬  GOOGLE STITCH PROMPT — S2
+
+Generate Screen S2: UPLOAD SHEET STEP 1 for WeddingSnap Comic Universe.
+
+━━ BACKGROUND ━━
+  Home screen (S1) partially visible behind sheet.
+  Backdrop: rgba(13,13,13,0.75) + halftone dot pattern at 15% opacity — printing press overlay.
+  The bento grid comic panels are faintly visible — blurred comic page effect.
+  This feels like a new panel rising from the bottom of the comic page.
+
+━━ COMIC PANEL SHEET ━━
+
+CONTAINER:
+  Covers ~68% screen height. Positioned at bottom.
+  Background: #F5F0E8 Panel Parchment (aged comic paper feel).
+  Top corners: 12pt radius. Bottom: flush.
+  Top border: 4px solid #FFE31A Boom Yellow.
+  Shadow above sheet: 0 -6px 0px #FFE31A, 0 -12px 40px rgba(13,13,13,0.5).
+  Subtle halftone dot texture over entire sheet at 4% opacity.
+
+DRAG HANDLE:
+  48pt × 5pt. #0D0D0D Ink Black. 0px radius (flat — like a comic panel line).
+  Margin-top: 12pt.
+
+SHEET TITLE BLOCK (centered):
+  Action word decoration: &apos;ZAP!&apos; in Bangers 40pt, #FFE31A, rotated +8°, behind title.
+  Title: &apos;SHARE A MEMORY!&apos; — 36pt Bangers, #0D0D0D, centered. 2px text-stroke.
+  Below: &apos;★  Your moment. Captured forever.  ★&apos;
+         13pt Oswald Italic, #E8162B, centered.
+  Margin below: 16pt.
+
+FIRST-TIME NAME PANEL (speech bubble design):
+  Large comic speech bubble shape:
+    #FFFDE7 bg. 2.5px #0D0D0D border. Shadow: 3px 3px 0px #0D0D0D.
+    Bottom-left pointer tail pointing down-left (classic comic bubble).
+  Inside bubble:
+    &apos;👋 HEY HERO! WHAT&apos;S YOUR NAME?&apos; — 14pt Oswald Bold, #E8162B.
+    Below: &apos;Your name appears on all your panels.&apos; 11pt Comic Neue, #0D0D0D 65%.
+    Input field inside bubble:
+      0px radius (angular). #FFFFFF bg. 2px #0D0D0D border.
+      Height 44pt. Padding 0 14pt. Font: Comic Neue, 13pt.
+      Placeholder: &apos;Your hero name...&apos; — #0D0D0D 35%.
+    Below input: &apos;SKIP FOR NOW →&apos; — 11pt Oswald, #0047AB, right-aligned.
+
+DIVIDER:
+  Double ink line: 2 horizontal rules 3px apart, both #0D0D0D.
+  Center: &apos;[ ✦ ]&apos; in Bangers 12pt #FFE31A.
+  Margin: 6pt 0 16pt.
+
+UPLOAD OPTION PANELS (two equal comic panels side by side):
+  Margin 14pt horizontal. 8pt gap.
+  Each: flex-1. Height 104pt. 0px border-radius (angular panels).
+  Border: 3px solid #0D0D0D. Shadow: 4px 4px 0px #0D0D0D.
+
+  LEFT — Camera (shown as SELECTED/TAPPED):
+    Background: #FFE31A Boom Yellow.
+    Top-left corner: &apos;SHOOT!&apos; in Bangers 10pt #E8162B, rotated +6°.
+    Center: Camera icon 32pt, #0D0D0D pixel-art style.
+    &apos;TAKE PHOTO&apos; — 14pt Oswald Bold, #0D0D0D, margin-top 8pt.
+    &apos;Open camera&apos; — 11pt Comic Neue, #0D0D0D 60%.
+
+  RIGHT — Gallery (unselected):
+    Background: #F5F0E8 Panel Parchment.
+    Top-left corner: &apos;PICK!&apos; in Bangers 10pt #0047AB, rotated +6°.
+    Center: Image-grid icon 32pt, #0047AB.
+    &apos;CHOOSE PHOTO&apos; — 14pt Oswald Bold, #0D0D0D.
+    &apos;From gallery&apos; — 11pt Comic Neue, #0D0D0D 60%.
+
+BOTTOM NOTE:
+  Small speech bubble (no tail): &apos;Photos go live for all guests instantly!&apos;
+  10pt Comic Neue, #0D0D0D 55%. Centered. Above safe area.
+
+━━ FEEL ━━
+  Rising comic panel energy. The name prompt feels like talking to a character.
+  Upload options feel like choosing your power-up. Fast, bold, clear.
+
+🔧 POWER-UP PROMPTS (if Stitch needs fixing)
+► If the speech bubble name input looks too complex: &apos;Simplify the bubble — rounded rect with just bottom-left pointer, remove decorative elements&apos;
+► If the panels look too small: &apos;Increase upload panel height to 116pt, increase camera icon to 36pt&apos;
+► If the halftone is overwhelming: &apos;Drop halftone on sheet to 3% opacity — barely visible texture&apos;
+
+S3
+GUEST
+UPLOAD SHEET — STEP 2 (PREVIEW)
+&quot;Your moment. Ready to go LIVE!&quot;
+
+ZONE
+ELEMENT
+COMIC TREATMENT
+Nav Bar
+Back + title
+Comic panel header bar — Bangers title, angular back button
+Photo Preview
+Selected photo
+Halftone ink filter overlay on photo — comic book photo effect
+Caption Input
+Text field
+Comic Neue font inside Angular input — like lettering a panel
+Side Selector
+3 pill chips
+Angular faction badges — Bride (red) vs Groom (blue) vs Friends
+Share Button
+CTA
+Full-width POW! button — yellow-orange with hard black shadow
+
+Generate Screen S3: UPLOAD PREVIEW SCREEN for WeddingSnap Comic Universe.
+
+━━ TOP NAVIGATION BAR ━━
+  Background: #0D0D0D Ink Black. Height 44pt.
+  LEFT: Angular back button — square shape, #FFE31A bg, &apos;← BACK&apos; Oswald 13pt #0D0D0D.
+  CENTER: &apos;NEW MEMORY&apos; — 24pt Bangers, #FFE31A.
+  RIGHT: Empty.
+  Bottom border: 3px solid #FFE31A — panel divider line.
+
+━━ PHOTO PREVIEW — THE HERO PANEL ━━
+  Full width minus 14pt margins. 0px border-radius (comic panel — angular).
+  Height: 46% of screen.
+  Border: 3px solid #0D0D0D. Shadow: 5px 5px 0px #0D0D0D.
+  Over the photo: halftone dot pattern at 10% opacity — comic-printed photo effect.
+  Show a vibrant reception photo — couple smiling, fairy lights, warm and emotional.
+
+  EDIT BUTTON (bottom-right, inside photo):
+    Square 30pt. #FFE31A bg. 2px #0D0D0D border. Edit icon #0D0D0D.
+    Label: &apos;EDIT&apos; Oswald 8pt #0D0D0D.
+    8pt from corner.
+
+━━ CAPTION INPUT ━━
+  Label: &apos;WRITE YOUR PANEL TEXT:&apos; — 10pt Oswald Bold, #E8162B, letter-spacing +2.
+  Margin: 16pt top.
+  Input: 0px radius. #FFFDE7 bg. 2px #0D0D0D border. Shadow: 3px 3px 0px #0D0D0D.
+  Height 52pt. Padding 0 16pt.
+  Placeholder: &apos;What happened in this panel? ✨&apos; — Comic Neue 13pt, #0D0D0D 35%.
+  Character counter: &apos;0 / 120&apos; — Courier New 10pt, #0D0D0D 40%, right-aligned below.
+
+━━ FACTION SELECTOR ━━
+  Label: &apos;CHOOSE YOUR FACTION:&apos; — 10pt Oswald Bold, #E8162B, letter-spacing +2.
+  Margin: 16pt top.
+  Three faction badges in a row. Equal spacing.
+
+  BADGE 1 — &apos;💍 BRIDE SQUAD&apos; — SELECTED:
+    0px radius. Background: #E8162B POW! Red. Border: 2px #0D0D0D.
+    Shadow: 3px 3px 0px #0D0D0D. Height 42pt. Padding 0 14pt.
+    Text: Oswald Bold 12pt, WHITE. Top: tiny &apos;TEAM&apos; Oswald 7pt #FFE31A.
+
+  BADGE 2 — &apos;🤵 GROOM CREW&apos; — UNSELECTED:
+    0px radius. Background: #F5F0E8. Border: 2px #0D0D0D.
+    Shadow: 2px 2px 0px #0D0D0D. Text: Oswald 12pt #0D0D0D.
+
+  BADGE 3 — &apos;😎 WILDCARDS&apos; — UNSELECTED:
+    Same as Badge 2 but label &apos;WILDCARDS&apos;.
+
+━━ POW! SHARE BUTTON ━━
+  Margin: 20pt top. Full width minus 14pt. Height 56pt.
+  0px radius (angular power move). Background: #FFE31A → #FF6B00 gradient.
+  Border: 3px #0D0D0D. Shadow: 5px 5px 0px #0D0D0D.
+  Text: &apos;⚡ SHARE TO THE WALL →&apos; Oswald Bold 15pt #0D0D0D.
+  Top-left floating: &apos;POW!&apos; Bangers 14pt #E8162B, rotated -8°.
+  Gold shimmer on top edge: 2px #FFE31A inner border glow.
+
+━━ FEEL ━━
+  The photo dominates like a hero panel. Caption feels like lettering the panel.
+  The faction badges feel like team insignias. The share button is THE action moment.
+
+🔧 POWER-UP PROMPTS (if Stitch needs fixing)
+► If photo feels too filtered: &apos;Reduce halftone dot overlay to 7% — photo must still be beautiful and clear&apos;
+► If faction badges look like pills: &apos;Make them sharper — 0 border radius, angular like faction insignia stamps&apos;
+► If CTA doesn&apos;t pop: &apos;Increase button height to 60pt, add stronger 6px 6px hard shadow&apos;
+
+S4
+GUEST
+UPLOAD SUCCESS
+&quot;LEVEL UP! Your memory is LIVE!&quot;
+
+ZONE
+ELEMENT
+COMIC TREATMENT
+Background
+Celebration bg
+Confetti + comic SFX explosions across the screen
+Success Card
+The main card
+&apos;LEVEL UP!&apos; panel — green glow, angular borders
+Checkmark
+Success icon
+POW! starburst explosion shape instead of simple circle
+Thumbnail
+Photo preview
+Photo in angular panel with halftone overlay
+Return link
+Back to wall
+Text link styled like a comic &apos;CONTINUE&apos; button
+
+Generate Screen S4: UPLOAD SUCCESS SCREEN for WeddingSnap Comic Universe.
+
+━━ FULL SCREEN BACKGROUND ━━
+  Background: #00C853 Level-Up Green — CELEBRATION STATE.
+  Over the green: comic starburst explosion shapes in #FFE31A and #FFFDE7 at 15% opacity.
+  Confetti: 35-40 pieces — small rectangles, circles, stars.
+  Colours: #FFE31A, #E8162B, #0047AB, #FF6B9D, #FFFDE7.
+  Higher density top half. Varying rotations.
+
+GIANT ACTION WORDS floating in background:
+  &apos;POW!&apos; — Bangers 72pt, #FFE31A 20% opacity, top-left, rotated -15°.
+  &apos;ZAP!&apos; — Bangers 60pt, #FFFDE7 15% opacity, bottom-right, rotated +10°.
+  &apos;SNAP!&apos; — Bangers 50pt, #FF6B9D 12% opacity, center-right.
+
+EMOJI BURST:
+  8-10 emojis scattered: 📸 🎉 ✨ ❤️ 🌸 💫 🥳 🎊
+  Each 22-28pt. Some slightly blurred (motion implied).
+
+━━ SUCCESS PANEL (centered card) ━━
+
+PANEL CONTAINER:
+  Width 88%. 0px border-radius (angular panel).
+  Border: 4px solid #0D0D0D. Shadow: 6px 6px 0px #0D0D0D.
+  Background: #FFFDE7 Script Cream. Halftone dots at 5% opacity inside.
+
+CHECKMARK — STARBURST STYLE:
+  Not a circle — a 8-point starburst / explosion shape, 80pt diameter.
+  #FFE31A fill. #0D0D0D outline 3px.
+  White ✓ check inside, 36pt Oswald Bold.
+  Shadow: 5px 5px 0px #0D0D0D.
+  Below: &apos;LEVEL UP!&apos; Bangers 24pt #E8162B. Margin-bottom 6pt.
+
+TITLE: &apos;MEMORY IS LIVE! 🎉&apos; — 28pt Bangers, #0D0D0D. Centered.
+SUBTITLE: &apos;Your photo just hit the wall!&apos;
+  13pt Comic Neue, #0D0D0D 65%. Centered.
+
+DIVIDER: Double ink rule with ★ center, #0D0D0D. Margin 16pt.
+
+PHOTO THUMBNAIL:
+  82×82pt. 0px radius. 2px #0D0D0D border. Shadow: 3px 3px 0px #0D0D0D.
+  Halftone at 8% over photo — comic-printed feel.
+  Centered.
+  Below: &apos;First dance of the evening ✨&apos; Comic Neue Italic 11pt #0D0D0D.
+  Below: &apos;— Kavitha  ·  BRIDE SQUAD&apos; Oswald 10pt #E8162B.
+
+REACTION PREVIEW ROW:
+  Label: &apos;PEOPLE CAN NOW POWER-UP YOUR MEMORY!&apos;
+  10pt Oswald, #0D0D0D 50%. Centered.
+  5 reaction pills: ❤️ 😂 😍 🔥 🙌
+  Each: 34pt height, 0px radius, #F5F0E8 bg, 2px #0D0D0D border.
+  3px 3px 0px #0D0D0D shadow. Emoji 14pt. 8pt gap.
+
+RETURN: &apos;BACK TO THE WALL →&apos; — Oswald Bold 13pt, #0047AB. Centered.
+  Underline: none. Tap target 44pt.
+
+━━ FEEL ━━
+  EXPLOSIVE. This should feel like finishing a level in a video game.
+  Green celebration background, starburst instead of checkmark circle,
+  action words in background, confetti everywhere.
+
+🔧 POWER-UP PROMPTS (if Stitch needs fixing)
+► If the starburst looks like a circle: &apos;Make it a sharp 8-point star explosion shape — sharp points, not rounded&apos;
+► If the green background clashes: &apos;Tone the green to #00A846 and add more #FFE31A starburst shapes to balance&apos;
+► If it feels too busy: &apos;Remove the floating action words from background, keep only confetti and emoji burst&apos;
+
+S5
+GUEST
+PHOTO VIEW — FLOATING CARD MODAL
+&quot;Enter the panel. Full screen glory!&quot;
+
+ZONE
+ELEMENT
+COMIC TREATMENT
+Backdrop
+Blur overlay
+Halftone ink wash — like opening a panel in a comic
+Card
+Floating modal
+Angular floating panel — hard black shadow, no blur shadow
+Photo
+Top 60%
+Halftone overlay on photo, uploader credit as comic label
+Reactions
+5 pills
+Angular faction chips — selected pill turns #FF6B9D
+Comments
+Thread
+Speech bubble comment design for each comment
+Navigation
+Arrow buttons
+Angular prev/next buttons — comic panel navigation
+
+Generate Screen S5: PHOTO VIEW FLOATING CARD MODAL for WeddingSnap Comic Universe.
+
+━━ SCREEN BACKDROP ━━
+  Full home screen behind, processed:
+  Overlay: rgba(13,13,13,0.80).
+  Over overlay: halftone dot pattern at 20% opacity — heavy ink wash.
+  The bento grid panels are faintly visible — like looking through a printing screen.
+  This is the &apos;entering a panel&apos; effect.
+
+━━ PANEL NAVIGATION ARROWS ━━
+  LEFT: Square 44pt. #FFE31A bg. 3px #0D0D0D border. 3px 3px 0 #0D0D0D shadow.
+        &apos;◀&apos; Bangers 22pt #0D0D0D. Position: v-center, 10pt from left.
+  RIGHT: Same style. &apos;▶&apos; pointing right.
+
+━━ FLOATING PANEL CARD ━━
+
+CONTAINER:
+  Width 90%. Max-height 84% of screen.
+  Centered horizontally, slight upward offset.
+  Background: #FFFDE7 Script Cream.
+  Border: 4px solid #0D0D0D. Shadow: 7px 7px 0px #0D0D0D (hard comic shadow).
+  0px border-radius. Halftone dots 4% inside card.
+
+PHOTO SECTION (~58% of card):
+  Full-width. 0px radius. object-fit cover.
+  Halftone dot at 10% opacity over photo.
+  Vibrant candid dance floor shot.
+
+  &apos;NEW!&apos; badge: angular starburst, #FFE31A, &apos;NEW!&apos; Bangers 8pt #0D0D0D. Top-right.
+  Uploader credit — small angled label: &apos;by Meena Aunty&apos; Courier New 10pt #FFFDE7 75%.
+    Black bg label strip at bottom-left of photo.
+
+INTERACTION SECTION (padding 14pt 14pt):
+
+  CAPTION (speech bubble style):
+    #FFFDE7 bg. 2.5px #0D0D0D border. Shadow: 2px 2px 0px #0D0D0D.
+    Bottom-left pointer tail.
+    &apos;First dance of the evening ✨&apos; Comic Neue Italic 15pt #0D0D0D.
+
+  METADATA: &apos;2 min ago  ·  BRIDE SQUAD&apos;
+    Courier New 12pt #0D0D0D 45%. Below caption. No bubble.
+
+  REACTION BAR (angular chips):
+    5 chips. 6pt gap. Each: 32pt height, 0px radius.
+    Default: #F5F0E8 bg, 2px #0D0D0D border, 2px 2px shadow.
+    Inside: emoji 14pt + Orbitron count 12pt #0D0D0D.
+    SELECTED (❤️): #FF6B9D bg, white emoji + count, 2px #0D0D0D border.
+    Counts: ❤️ 142  😂 38  😍 97  🔥 61  🙌 29.
+
+  COMMENTS LABEL: &apos;COMMENTS —&apos; Oswald Bold 10pt #0047AB letter-spacing +2.
+
+  COMMENT 1 (speech bubble):
+    Avatar: 28pt square (0px radius), #0047AB bg, &apos;KR&apos; Orbitron 10pt white.
+    Bubble: #FFFDE7 bg, 2px #0D0D0D, 2px 2px shadow, pointer bottom-left.
+    Name: &apos;Kavitha R.&apos; Oswald Bold 12pt #E8162B.
+    Comment: &apos;This moment made me cry! So beautiful 🌸&apos; Comic Neue 12pt #0D0D0D.
+
+  COMMENT 2:
+    Avatar: &apos;SV&apos; #E8162B bg.
+    Name: &apos;Suresh V.&apos;
+    Comment: &apos;Best wedding photo I&apos;ve seen! 🔥&apos;
+
+  COMMENT INPUT (pinned bottom of card):
+    0px radius. #0D0D0D bg. 1px #FFE31A border. Height 44pt.
+    Placeholder: &apos;Add to this panel...&apos; Courier New 12pt #FFE31A 40%.
+    RIGHT: Angular send button 28pt, #FFE31A bg, → arrow #0D0D0D.
+
+━━ FEEL ━━
+  Like actually entering a comic panel. Everything is angular and inky.
+  The photo dominates. Reactions and comments feel like audience interaction.
+
+🔧 POWER-UP PROMPTS (if Stitch needs fixing)
+► If speech bubble pointer looks bad: &apos;Simplify — use rectangular bubble without pointer for mobile, just thick border&apos;
+► If card feels too dark: &apos;Lighten card background to #FFFFFF, keep all borders and shadows dark&apos;
+► If reactions look crowded: &apos;Add 10pt horizontal padding to each chip, show only 4 chips with a +1 scroll indicator&apos;
+
+S6
+GUEST
+COMMENT INPUT ACTIVE STATE
+&quot;The hero speaks! Keyboard is open.&quot;
+
+Generate Screen S6: COMMENT INPUT ACTIVE STATE for WeddingSnap Comic Universe.
+This is Screen S5 with keyboard open. User is actively typing a comment.
+
+━━ KEYBOARD ━━
+  Standard iOS keyboard. Dark mode (dark bg, dark keys — matches our Ink Black theme).
+  Height ~260pt. &apos;send&apos; on Return key.
+
+━━ CARD SHIFTS UP (adjusted layout) ━━
+  Card moves above keyboard. Photo section compressed to ~38%.
+  Interaction section dominates. Halftone dots still visible on photo.
+
+━━ ACTIVE COMMENT INPUT ━━
+  Focused state: 1.5px #FFE31A border. Background: #1A1A1A very dark.
+  Cursor: blinking, #FFE31A colour.
+  Typed text: &apos;This moment made me cry! 😭&apos; Comic Neue 13pt #FFE31A.
+  ABOVE INPUT: &apos;COMMENTING AS: KAVITHA&apos; Oswald 10pt #FF6B9D.
+  Send button: #FFE31A filled circle, #0D0D0D arrow, 28pt, active.
+
+━━ COMMENT LIMIT BANNER ━━
+  Show ABOVE input when limit reached:
+  Angular banner. #FFE31A bg. 2px #0D0D0D border. 3px 3px 0 #0D0D0D shadow.
+  Left accent: 3px solid #E8162B.
+  &apos;YOU&apos;VE ALREADY POWERED UP THIS PANEL! 💬&apos;
+  Oswald Bold 12pt #0D0D0D.
+  Below: &apos;REACT INSTEAD:&apos; Oswald 11pt #0D0D0D 70%.
+  Mini reaction row: 5 emoji chips 26pt, #F5F0E8 bg, #0D0D0D border.
+  In limit state: input at 40% opacity, non-interactive.
+
+━━ COMMENTS VISIBLE ━━
+  2 comments partially visible above input — same speech bubble style as S5.
+  Thread appears scrolled slightly.
+
+━━ FEEL ━━
+  Dark keyboard matches the ink black aesthetic. Yellow cursor pops.
+  Limit message uses comic panel energy — not frustrating, energetic.
+
+🔧 POWER-UP PROMPTS (if Stitch needs fixing)
+► If dark keyboard clashes: &apos;Switch to light mode keyboard — white keys. Adjust input to white bg, dark text&apos;
+► If limit banner looks harsh: &apos;Use #FFF9C4 pale yellow bg for limit banner — softer but still comic-styled&apos;
+
+S7
+GUEST
+UPLOAD COOLDOWN STATE
+&quot;Recharging... your power returns in 3:42!&quot;
+
+Generate Screen S7: UPLOAD COOLDOWN STATE for WeddingSnap Comic Universe.
+This is S1 with cooldown modifications to the bottom bar only.
+
+━━ EVERYTHING ABOVE BOTTOM BAR ━━
+  Identical to S1. All panels fully usable, scrollable, reactive.
+  No changes above the bottom bar.
+
+━━ RECHARGE TOAST (floating above bar) ━━
+  Angular pill. #0D0D0D bg. 2px #FF6B00 Wham! Orange border.
+  Shadow: 3px 3px 0px #FF6B00.
+  Centered, 12pt above bar.
+  Content: &apos;⚡ POWER RECHARGING IN: &apos; Orbitron 11pt #FF6B00 + &apos;3:42&apos; Orbitron Bold 14pt #FFE31A.
+           + &apos; ★&apos; Bangers 12pt #FFE31A.
+
+━━ BOTTOM BAR — RECHARGE STATE ━━
+  Same #0D0D0D bg. Same #FFE31A top border.
+  Camera icon: dimmed to 30% opacity.
+
+  CENTER RECHARGE PANEL:
+    #1A1A1A dark bg. 1px #FF6B00 border. 0px radius. Height 38pt.
+    Line 1: &apos;⚡ NEXT SNAP IN: 3:42&apos; Orbitron Bold 11pt #FF6B00.
+    Line 2: &apos;Your first 2 panels were INSTANT!&apos; Courier New 9pt #FFE31A 40%.
+
+  RIGHT BUTTON — RECHARGE STATE:
+    #1A1A1A bg. 1px #FF6B00 border. 4px 4px 0px #333333 shadow.
+    Text: &apos;RECHARGING...&apos; Oswald 11pt #FF6B00 50%.
+    Not the active gradient. Clearly disabled.
+
+━━ FEEL ━━
+  Cooldown = recharging energy, not punishment. Video game power meter depleted.
+  The rest of the page is alive and energetic. Orange glow implies power returning.
+
+🔧 POWER-UP PROMPTS (if Stitch needs fixing)
+► If orange feels too harsh: &apos;Shift orange to #FFAB40 amber — warmer, less alarming, still comic-appropriate&apos;
+► If timer text isn&apos;t visible: &apos;Increase Orbitron timer to 16pt, add 2px #FF6B00 text-shadow for glow effect&apos;
+
+S8
+GUEST
+HIGHLIGHTS EXPANDED VIEW
+&quot;The MOST LOVED panel — front and center!&quot;
+
+Generate Screen S8: HIGHLIGHTS EXPANDED VIEW for WeddingSnap Comic Universe.
+Shows when guest taps &apos;❤️ Most Loved&apos; highlight card.
+
+━━ TOP NAVIGATION BAR ━━
+  #0D0D0D bg. Height 44pt.
+  LEFT: Angular back button, #FFE31A bg, &apos;← PANELS&apos; Oswald 13pt #0D0D0D.
+  CENTER: &apos;❤️ MOST LOVED&apos; — 22pt Bangers, #FFE31A.
+  RIGHT: Share icon square button, #FFE31A bg, 28pt.
+  Bottom: 3px #FFE31A border.
+
+━━ HERO PANEL — FULL BLEED ━━
+  Full width. Height 50% of screen. 0px radius. No horizontal margin.
+  Border-bottom: 4px #0D0D0D.
+  Halftone dot overlay on photo at 10% — comic-printed effect.
+  Photo: First dance moment, couple, warm fairy lights, cinematic.
+
+  REACTION BADGE (floating, bottom-center of photo):
+    Angular badge. #0D0D0D bg. 2px #FFE31A border.
+    &apos;❤️  142 REACTIONS&apos; Orbitron Bold 13pt #FFE31A.
+
+  CAPTION (bottom-left speech bubble with NO pointer — flat banner):
+    #0D0D0D bg, 2px #FFE31A border.
+    &apos;First dance of the evening ✨&apos; Comic Neue Italic 13pt #FFE31A.
+
+━━ STATS ROW ━━
+  #F5F0E8 bg. Padding 12pt 18pt. 3px bottom border #0D0D0D.
+  &apos;❤️  142  ·  💬  23 comments  ·  👁  312 views&apos;
+  Orbitron 13pt #0D0D0D 65%.
+
+━━ REACTION BAR ━━
+  #FFFDE7 bg section. Padding 12pt 14pt. 3px bottom border #0D0D0D.
+  Angular chips. ❤️ 142 SELECTED (#FF6B9D bg, white). Others default style.
+
+━━ COMMENTS ━━
+  Padding 14pt 14pt.
+  Label: &apos;23 COMMENTS&apos; Oswald Bold 10pt #0047AB letter-spacing +2.
+  3 comments in speech bubble style (same as S5).
+    Comment 3: Gray square avatar, &apos;?&apos; Oswald. &apos;Anonymous&apos; Comic Neue Italic #0D0D0D 50%.
+
+  Comment input — same dark comic style as S5.
+
+━━ MORE IN CATEGORY ━━
+  Label: &apos;MORE ❤️ LOVED PANELS&apos; Oswald 10pt #E8162B letter-spacing +2.
+  3 angular thumbnails equal width. 8pt gap. Height 76pt.
+  0px radius. 2px #0D0D0D border. 2px 2px 0 #0D0D0D shadow.
+
+━━ FEEL ━━
+  This photo is a COMIC COVER MOMENT. It gets the full-page panel treatment.
+  Dark nav bar frames it like a comic issue header. Stats row is the comic credits.
+
+🔧 POWER-UP PROMPTS (if Stitch needs fixing)
+► If hero photo feels too short: &apos;Increase hero to 54% of screen height&apos;
+► If halftone is too heavy on the hero photo: &apos;Drop to 7% — photo must remain emotionally clear&apos;
+
+S9
+ADMIN
+ADMIN PANEL — DASHBOARD
+&quot;Director&apos;s Command Centre. BOSS LEVEL.&quot;
+
+ZONE
+ELEMENT
+COMIC TREATMENT
+Nav Bar
+Admin header
+Black command strip — BOSS LEVEL header in Bangers
+Stats Cards
+4 metric cards
+Angular stat panels — video game HUD style, Orbitron numbers
+Leaderboard
+Bride vs Groom
+Same XP bar — but admin sees raw numbers too
+Quick Actions
+3 action rows
+Thick-bordered action panels — like boss menu options
+Recent Uploads
+Last 5 photos
+Comic panel strip of recent memories with delete button
+
+Generate Screen S9: ADMIN PANEL DASHBOARD for WeddingSnap Comic Universe.
+Same design system but BOSS LEVEL aesthetic. More command centre, less celebration.
+Still warm and purposeful. This is the Director&apos;s HQ.
+
+━━ TOP NAVIGATION BAR ━━
+  #0D0D0D Ink Black bg. Extra authority.
+  &apos;DIRECTOR&apos;S HQ&apos; small Oswald 8pt #FFE31A at very top, centered.
+  CENTER: &apos;ADMIN PANEL&apos; — 28pt Bangers, #FFE31A.
+  RIGHT: &apos;🔒 SECURE&apos; angular badge: #E8162B bg, 2px #FFE31A border, Oswald 10pt #FFE31A.
+  Bottom: 3px #FFE31A border.
+
+EVENT BAR (below nav):
+  #1A1A1A bg. Padding 8pt 14pt. 2px bottom #FFE31A border.
+  &apos;Rahul &amp; Priya  ·  Feb 14, 2026  ·  Chennai&apos;
+  Orbitron 12pt #FFE31A 60%.
+
+━━ STATS OVERVIEW — VIDEO GAME HUD ━━
+
+  Label: &apos;EVENT STATS&apos; Oswald Bold 10pt #FF6B9D letter-spacing +2. Margin 12pt top.
+
+  2×2 grid. Gap 10pt. Margin 12pt.
+  Each card: 0px radius. Border 3px #0D0D0D. Shadow 4px 4px 0px #0D0D0D. Padding 14pt.
+
+  CARD 1 — Photos: #FFFDE7 bg.
+    Top: camera pixel icon 18pt #0047AB.
+    Number: &apos;148&apos; — 32pt Orbitron Bold, #0D0D0D.
+    Label: &apos;TOTAL PANELS&apos; Oswald 11pt #0D0D0D 60%.
+
+  CARD 2 — Comments: #FFFDE7 bg.
+    Chat icon. &apos;203&apos;. &apos;TOTAL COMMENTS&apos;.
+
+  CARD 3 — Reactions: #FFFDE7 bg. Light #FF6B9D tint.
+    Heart icon #FF6B9D. &apos;912&apos;. &apos;TOTAL REACTIONS&apos;.
+
+  CARD 4 — Guests: #FFFDE7 bg. Light #FFE31A tint.
+    Person icon #FFE31A. &apos;47&apos;. &apos;UNIQUE HEROES&apos;.
+    Note: &apos;(by device)&apos; Courier New 9pt #0D0D0D 45%.
+
+━━ LEADERBOARD ━━
+  Same XP battle bar as S1 but in white #FFFDE7 panel.
+  Below bar: &apos;Bride last upload: 4 min ago  ·  Groom: 11 min ago&apos;
+  Courier New 10pt #0D0D0D 50%.
+
+━━ MANAGE PANELS — QUICK ACTIONS ━━
+  Label: &apos;MANAGE&apos; Oswald Bold 10pt #E8162B letter-spacing +2.
+  3 action panels stacked. Full width. Height 60pt. 0px radius.
+  Border 3px #0D0D0D. Shadow 4px 4px 0px #0D0D0D. Margin-bottom 8pt.
+
+  ROW 1: #FFFDE7 bg. Left: &apos;📷 MANAGE PHOTOS&apos; Oswald Bold 14pt #0D0D0D.
+    Right: &apos;148&apos; angular badge #0047AB bg #FFFDE7 text + &apos;›&apos; Bangers 20pt #0D0D0D.
+
+  ROW 2: Same. &apos;💬 MANAGE COMMENTS&apos;. Badge &apos;203&apos;.
+
+  ROW 3: #FFE31A tint bg. &apos;⭐ MANAGE HIGHLIGHTS&apos;. Badge &apos;5 ACTIVE&apos; #E8162B bg.
+
+━━ RECENT PANELS ━━
+  Label: &apos;RECENT PANELS&apos; Oswald Bold 10pt #0047AB letter-spacing +2.
+  5 rows. Each: 0px radius. 3px #0D0D0D border. 2px 2px shadow. Padding 10pt. Margin-bottom 6pt.
+  Background alternates: #FFFDE7 and #F5F0E8.
+  LEFT: 52×52pt photo thumbnail. 0px radius. 2px #0D0D0D border.
+  CENTER: Caption 13pt Oswald Bold #0D0D0D + meta &apos;by Kavitha · 2 min ago&apos; Courier 11pt #0D0D0D 50%.
+  RIGHT: &apos;DELETE&apos; Oswald Bold 11pt #E8162B — red, authoritative.
+
+━━ FEEL ━━
+  Boss Level command centre. Dark nav bar frames the authority.
+  Stats feel like a video game end-of-round HUD.
+  Action rows feel like a director&apos;s choice menu — bold, clear, decisive.
+
+🔧 POWER-UP PROMPTS (if Stitch needs fixing)
+► If admin looks too corporate: &apos;Warm it with #FFFDE7 card bg and bold Bangers labels — keep the comic energy in the admin too&apos;
+► If stats numbers look too small: &apos;Increase Orbitron to 36pt on the stats cards, add subtle drop shadow on numbers&apos;
+
+S10
+ADMIN
+ADMIN — PHOTO MANAGEMENT
+&quot;Every panel. Under control. SWIPE TO DELETE.&quot;
+
+Generate Screen S10: ADMIN PHOTO MANAGEMENT for WeddingSnap Comic Universe.
+
+━━ NAV BAR ━━
+  Same #0D0D0D bar. LEFT: &apos;← ADMIN&apos; angular button #FFE31A bg Oswald 13pt #0D0D0D.
+  CENTER: &apos;MANAGE PANELS&apos; Bangers 24pt #FFE31A.
+  RIGHT: &apos;148 TOTAL&apos; Orbitron 12pt #FFE31A 50%.
+  Bottom: 3px #FFE31A.
+
+━━ FACTION FILTER TABS ━━
+  Horizontal scroll. #1A1A1A bg strip. Padding 12pt 14pt.
+  Tab style: angular, 0px radius, 34pt height.
+
+  TAB 1 &apos;ALL&apos; SELECTED: #FFE31A bg. 3px #0D0D0D border. Oswald Bold 13pt #0D0D0D.
+  TAB 2 &apos;BRIDE SQUAD&apos;: #E8162B bg. White text. Same border.
+  TAB 3 &apos;GROOM CREW&apos;: #0047AB bg. White text.
+  TAB 4 &apos;WILDCARDS&apos;: #F5F0E8 bg. #0D0D0D text.
+  Gap 6pt between tabs.
+
+━━ PHOTO LIST ━━
+  #F5F0E8 bg. Padding 10pt 12pt.
+  6-7 rows. Each as angular comic panel card:
+  0px radius. Border 3px #0D0D0D. Shadow 3px 3px 0px #0D0D0D. Padding 10pt. Margin-bottom 8pt.
+
+  NORMAL ROW:
+  LEFT: 64×64pt thumbnail. 0px radius. 2px #0D0D0D border.
+  CENTER: Caption Oswald Bold 13pt #0D0D0D. Meta Courier 11pt #0D0D0D 45%. Reactions Orbitron 10pt.
+  RIGHT: &apos;⋯&apos; square 28pt, #F5F0E8 bg, 2px #0D0D0D border.
+
+  EXPANDED ROW (one shown):
+    Left border: 4px solid #0047AB ZAP! Blue.
+    Background: #EAF3F8 light blue.
+    Below normal content, show two action options:
+      &apos;REMOVE FROM HIGHLIGHTS&apos; Oswald Medium 12pt #FFE31A. Yellow bg strip.
+      Separator: 2px #0D0D0D.
+      &apos;DELETE PANEL&apos; Oswald Bold 12pt #E8162B. Red. Clearly destructive.
+
+  CONFIRMATION MODAL (angular floating panel):
+    0px radius. Border 4px #E8162B. Shadow 6px 6px 0px #E8162B.
+    Background #FFFDE7.
+    Title: &apos;DELETE THIS PANEL?&apos; Bangers 22pt #E8162B.
+    Body: &apos;This permanently removes the photo, reactions, and comments.&apos; Comic Neue 11pt #0D0D0D.
+    Two buttons side by side:
+      &apos;CANCEL&apos;: #F5F0E8 bg, 3px #0047AB border, Oswald Bold 13pt #0047AB.
+      &apos;DELETE&apos;: #E8162B bg, 3px #0D0D0D border, Oswald Bold 13pt #FFFDE7.
+    Both: 0px radius, 3px 3px 0 #0D0D0D hard shadow.
+
+━━ FEEL ━━
+  iOS Mail-style swipe + comic panel authority.
+  Delete is clearly red. Highlighted row has ZAP! Blue accent.
+  Angular buttons feel weighty — director making a decision.
+
+🔧 POWER-UP PROMPTS (if Stitch needs fixing)
+► If delete button looks too subtle: &apos;Make DELETE bold Oswald 14pt, full-width red strip at bottom of expanded row&apos;
+► If filter tabs take up too much space: &apos;Reduce tab height to 30pt, compress slightly&apos;
+
+S11
+ADMIN
+ADMIN — COMMENT MANAGEMENT
+&quot;Every word. Every panel. In your hands.&quot;
+
+Generate Screen S11: ADMIN COMMENT MANAGEMENT for WeddingSnap Comic Universe.
+
+━━ NAV BAR ━━
+  Same #0D0D0D. LEFT: &apos;← ADMIN&apos; yellow angular button.
+  CENTER: &apos;MANAGE COMMENTS&apos; Bangers 24pt #FFE31A.
+  RIGHT: &apos;203 TOTAL&apos; Orbitron 12pt #FFE31A 50%.
+
+━━ PANEL SELECTOR STRIP ━━
+  #0D0D0D bg. Padding 10pt 14pt.
+  Label: &apos;SELECT A PANEL:&apos; Oswald 9pt #FFE31A 50%.
+  Thumbnails: 52×52pt each. 0px radius. 2px #0D0D0D border. Gap 8pt.
+  SELECTED (second): 3px #FFE31A border. Shadow: 0 0 0 3px #FFE31A.
+  Last thumbnail partially cut off (implies scroll).
+
+━━ SELECTED PANEL CONTEXT ━━
+  Angular card. 0px radius. 3px #0D0D0D border. 3px 3px shadow. Padding 10pt 14pt.
+  #FFFDE7 bg. Margin 12pt.
+  LEFT: 38pt square thumbnail. RIGHT: Oswald Bold caption + Orbitron meta stats.
+
+━━ COMMENT LIST ━━
+  #F5F0E8 bg. Padding 10pt 12pt.
+  5-6 comment cards.
+
+  NAMED COMMENT:
+  0px radius. 3px #0D0D0D border. 3px 3px 0 #0D0D0D shadow.
+  #FFFDE7 bg. Padding 10pt 12pt. Margin-bottom 6pt.
+  LEFT: 34pt square avatar, 0px radius, #0047AB bg, white Orbitron initials.
+  CENTER: Name Oswald Bold 12pt #E8162B. Comment Comic Neue 12pt #0D0D0D. Time Courier 10pt 45%.
+  RIGHT: &apos;DELETE&apos; Oswald Bold 11pt #E8162B.
+
+  ANONYMOUS COMMENT (different style):
+  Avatar: #B0B0B0 bg, &apos;?&apos; Bangers 14pt #0D0D0D.
+  Name: &apos;ANONYMOUS&apos; Oswald Italic 12pt #0D0D0D 45%.
+  Dotted border (#0D0D0D 1px dashed) — thought bubble feel.
+
+  SELECTED FOR BULK (one card):
+  Left border: 4px #FFE31A. Background: #FFF9C4.
+  Checkbox square left of avatar: checked, #FFE31A bg, 2px #0D0D0D border, ✓ Bangers.
+
+━━ BULK ACTION BAR (pinned above safe area) ━━
+  #FFFDE7 bg. Border-top 3px #0D0D0D. Padding 10pt 16pt.
+  LEFT: Square checkbox + &apos;SELECT ALL&apos; Oswald Bold 13pt #0047AB.
+  RIGHT: &apos;DELETE SELECTED (3)&apos; angular pill (0px radius), #E8162B bg, 3px #0D0D0D border,
+         3px 3px 0 #0D0D0D shadow, Oswald Bold 12pt #FFFDE7.
+
+━━ FEEL ━━
+  Like reading a comic book&apos;s script panel — organized, clear.
+  Bulk delete feels like a director cutting scenes. Angular, decisive, comic-authoritative.
+
+🔧 POWER-UP PROMPTS (if Stitch needs fixing)
+► If comment cards look too cramped: &apos;Increase padding to 14pt, gap between cards to 10pt&apos;
+► If anonymous style isn&apos;t clear enough: &apos;Use gray dashed border on anonymous cards — visually distinct from named comments&apos;
+
+CHAPTER 07
+CONSISTENCY CHECKLIST
+Verify Every Screen Before Saving
+
+CHECK
+REQUIREMENT
+WHY IT MATTERS
+Ink Borders
+Every card has 3px+ solid #0D0D0D border
+The comic ink line — non-negotiable
+Hard Shadows
+All cards have 4px 4px 0px #0D0D0D (no blur)
+Comic book depth — not soft shadows
+Halftone Texture
+Page bg has Ben-Day dot pattern at 6-8% opacity
+Aged comic paper feel throughout
+Bangers Font
+Appears on every screen at least once
+The comic identity font — must be present
+Orbitron Numbers
+All stats, counters, timers use Orbitron
+Video game score consistency
+Angular Buttons
+0-8px radius only — never full pill
+Comic book buttons are angular, not round
+Yellow-Orange CTA
+#FFE31A → #FF6B00 gradient on primary actions
+The POW! energy colour is consistent
+Dark Bottom Bar
+#0D0D0D with #FFE31A top border
+Arcade cabinet aesthetic — consistent
+Speech Bubbles
+Comments and captions in bubble style
+Comic lettering convention
+Cultural Warmth
+Mehendi/South Indian motifs in hero sections
+The heart of the product — never lost
+Action Words
+POW!/ZAP!/SNAP! decorations on key moments
+Comic SFX energy — not every screen but most
+No Pill Shapes
+No rounded pill shapes on any interactive element
+Pill = soft, round = un-comic. Stay angular
+
+💬 FINAL RULE
+If a screen looks like it could be from any other app, it needs more comic energy. Add a border. Harden the shadow. Add a Bangers headline. Make it feel like a panel in a comic book about this wedding.
+
+QUICK REFERENCE — ACTION WORDS BY SCREEN
+SCREEN
+HERO ACTION WORD
+PLACEMENT
+S1 Home
+SNAP!
+Top-right of hero, rotated +12°
+S2 Upload Step 1
+ZAP!
+Behind sheet title, rotated +8°
+S3 Preview
+POW!
+Near share button, bottom-left, rotated -8°
+S4 Success
+LEVEL UP! + POW! + ZAP!
+Background and starburst
+S5 Photo Modal
+SNAP!
+Behind navigation arrows, very faint
+S6 Comment State
+BOOM!
+Near active input, optional
+S7 Cooldown
+RECHARGE!
+Inside the cooldown panel
+S8 Highlights
+EPIC!
+Near hero photo, subtle
+S9 Admin Dash
+BOSS LEVEL
+Admin nav bar subtitle
+S10 Photo Manage
+EDIT MODE
+Below nav bar as sub-header
+S11 Comment Manage
+CONTROL ROOM
+Below nav bar as sub-header
+
+
+
+WEDDINGSNAP COMIC UNIVERSE
+11 Screens  ·  Guest + Admin  ·  Comic Book + Video Game + South Indian Wedding
+Designed for Google Stitch  ·  Version 1.0  ·  2026
+
