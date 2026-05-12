@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 let memories = [];
 let uploadsEnabled = true;
+const validSides = ["Bride's Side", "Groom's Side"];
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -39,30 +40,60 @@ function signCloudinaryParams(params) {
     .digest("hex");
 }
 
-function getCloudinaryUploadSignature() {
+function hasCloudinaryConfig() {
   const { cloudName, apiKey, apiSecret, folder } = cloudinaryConfig;
+  return Boolean(cloudName && apiKey && apiSecret && folder);
+}
 
-  if (!cloudName || !apiKey || !apiSecret) {
+function requireCloudinaryConfig() {
+  if (!hasCloudinaryConfig()) {
     throw new Error("Cloudinary environment variables are missing.");
   }
+}
 
+function getValidSide(side) {
+  return validSides.includes(side) ? side : "Bride's Side";
+}
+
+function cleanContextValue(value, maxLength = 120) {
+  return String(value || "")
+    .replace(/[|=&]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, maxLength);
+}
+
+function buildCloudinaryContext(body = {}) {
+  const caption = cleanContextValue(body.caption || "A beautiful memory");
+  const guestName = cleanContextValue(body.guestName || "Anonymous", 80);
+  const side = getValidSide(body.side);
+  return `caption=${caption}|guestName=${guestName}|side=${side}`;
+}
+
+function getCloudinaryUploadSignature(body = {}) {
+  requireCloudinaryConfig();
+
+  const { cloudName, apiKey, folder } = cloudinaryConfig;
   const timestamp = Math.floor(Date.now() / 1000).toString();
-  const signedParams = { folder, timestamp };
+  const context = buildCloudinaryContext(body);
+  const signedParams = { context, folder, timestamp };
 
   return {
     cloudName,
     apiKey,
+    context,
     folder,
     timestamp,
     signature: signCloudinaryParams(signedParams)
   };
 }
 
-async function uploadToCloudinary(file) {
-  const { cloudName, apiKey, folder, timestamp, signature } = getCloudinaryUploadSignature();
+async function uploadToCloudinary(file, body = {}) {
+  const { cloudName, apiKey, context, folder, timestamp, signature } = getCloudinaryUploadSignature(body);
   const formData = new FormData();
 
   formData.append("file", new Blob([file.buffer], { type: file.mimetype }), file.originalname);
+  formData.append("context", context);
   formData.append("api_key", apiKey);
   formData.append("timestamp", timestamp);
   formData.append("folder", folder);
@@ -72,20 +103,20 @@ async function uploadToCloudinary(file) {
     method: "POST",
     body: formData
   });
-  const body = await response.json();
+  const responseBody = await response.json();
 
   if (!response.ok) {
-    throw new Error(body.error?.message || "Cloudinary upload failed.");
+    throw new Error(responseBody.error?.message || "Cloudinary upload failed.");
   }
 
-  return body;
+  return responseBody;
 }
 
 function createMemoryFromUpload(uploadedImage, body = {}) {
-  const side = ["Bride's Side", "Groom's Side"].includes(body.side) ? body.side : "Bride's Side";
+  const side = getValidSide(body.side);
 
   return {
-    id: Date.now(),
+    id: uploadedImage.asset_id || Date.now(),
     imageUrl: uploadedImage.secure_url,
     cloudinaryPublicId: uploadedImage.public_id,
     caption: body.caption || "A beautiful memory",
@@ -101,6 +132,135 @@ function createMemoryFromUpload(uploadedImage, body = {}) {
     comments: [],
     createdAt: new Date().toISOString()
   };
+}
+
+function getLocalMemoryForResource(resource) {
+  return memories.find(memory =>
+    memory.cloudinaryPublicId === resource.public_id ||
+    String(memory.id) === String(resource.asset_id)
+  );
+}
+
+function getDefaultReactions() {
+  return {
+    heart: 0,
+    laugh: 0,
+    love: 0,
+    fire: 0,
+    clap: 0
+  };
+}
+
+function memoryFromCloudinaryResource(resource) {
+  const localMemory = getLocalMemoryForResource(resource);
+  const customContext = resource.context?.custom || {};
+
+  return {
+    id: resource.asset_id || encodeURIComponent(resource.public_id),
+    imageUrl: resource.secure_url,
+    cloudinaryPublicId: resource.public_id,
+    caption: localMemory?.caption || customContext.caption || "A beautiful memory",
+    guestName: localMemory?.guestName || customContext.guestName || "Anonymous",
+    side: getValidSide(localMemory?.side || customContext.side),
+    reactions: localMemory?.reactions || getDefaultReactions(),
+    comments: localMemory?.comments || [],
+    createdAt: resource.created_at || localMemory?.createdAt || new Date().toISOString()
+  };
+}
+
+function getCloudinaryAdminHeaders() {
+  requireCloudinaryConfig();
+  const credentials = Buffer.from(`${cloudinaryConfig.apiKey}:${cloudinaryConfig.apiSecret}`).toString("base64");
+  return { Authorization: `Basic ${credentials}` };
+}
+
+async function listCloudinaryResources() {
+  if (!hasCloudinaryConfig()) return [];
+
+  const resources = [];
+  let nextCursor;
+
+  do {
+    const url = new URL(`https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloudName}/resources/image/upload`);
+    url.searchParams.set("prefix", `${cloudinaryConfig.folder}/`);
+    url.searchParams.set("max_results", "500");
+    url.searchParams.set("context", "true");
+    if (nextCursor) url.searchParams.set("next_cursor", nextCursor);
+
+    const response = await fetch(url, { headers: getCloudinaryAdminHeaders() });
+    const body = await response.json();
+
+    if (!response.ok) {
+      throw new Error(body.error?.message || "Could not load Cloudinary photos.");
+    }
+
+    resources.push(...(body.resources || []));
+    nextCursor = body.next_cursor;
+  } while (nextCursor);
+
+  return resources;
+}
+
+async function getWallMemories() {
+  try {
+    const cloudinaryResources = await listCloudinaryResources();
+    if (cloudinaryResources.length === 0) return memories;
+
+    const cloudinaryMemories = cloudinaryResources.map(memoryFromCloudinaryResource);
+    const seen = new Set(cloudinaryMemories.map(memory => memory.cloudinaryPublicId || String(memory.id)));
+    const recentLocalMemories = memories.filter(memory => {
+      const key = memory.cloudinaryPublicId || String(memory.id);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+
+    return [...cloudinaryMemories, ...recentLocalMemories]
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  } catch (error) {
+    console.error("Could not load Cloudinary wall photos:", error);
+    return memories;
+  }
+}
+
+async function getMutableMemory(id) {
+  let memory = memories.find(item => String(item.id) === String(id));
+  if (memory) return memory;
+
+  const wallMemories = await getWallMemories();
+  memory = wallMemories.find(item => String(item.id) === String(id));
+  if (memory) {
+    memories.unshift(memory);
+    return memory;
+  }
+
+  return null;
+}
+
+async function deleteCloudinaryImage(publicId) {
+  requireCloudinaryConfig();
+
+  const timestamp = Math.floor(Date.now() / 1000).toString();
+  const signature = signCloudinaryParams({ public_id: publicId, timestamp });
+  const formData = new URLSearchParams({
+    public_id: publicId,
+    api_key: cloudinaryConfig.apiKey,
+    timestamp,
+    signature
+  });
+
+  const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloudName}/image/destroy`, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: formData
+  });
+  const body = await response.json();
+
+  if (!response.ok || body.result === "error") {
+    throw new Error(body.error?.message || "Could not delete Cloudinary photo.");
+  }
+
+  return body;
 }
 
 const upload = multer({
@@ -132,9 +292,10 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/wall", (req, res) => {
-  const brideCount = memories.filter(m => m.side === "Bride's Side" || m.side === "Bride Side").length;
-  const groomCount = memories.filter(m => m.side === "Groom's Side" || m.side === "Groom Side").length;
+app.get("/wall", async (req, res) => {
+  const wallMemories = await getWallMemories();
+  const brideCount = wallMemories.filter(m => m.side === "Bride's Side" || m.side === "Bride Side").length;
+  const groomCount = wallMemories.filter(m => m.side === "Groom's Side" || m.side === "Groom Side").length;
   const totalCompetitors = brideCount + groomCount;
   const bridePercent = totalCompetitors === 0 ? 50 : Math.round((brideCount / totalCompetitors) * 100);
   const groomPercent = totalCompetitors === 0 ? 50 : Math.round((groomCount / totalCompetitors) * 100);
@@ -157,7 +318,7 @@ app.get("/wall", (req, res) => {
   const usedIds = new Set();
 
   for (const { type, emoji, label } of emojiTypes) {
-    const sorted = memories
+    const sorted = wallMemories
       .filter(m => !usedIds.has(m.id) && (m.reactions?.[type] || 0) > 0)
       .sort((a, b) => (b.reactions?.[type] || 0) - (a.reactions?.[type] || 0));
 
@@ -173,7 +334,7 @@ app.get("/wall", (req, res) => {
     groomName: process.env.GROOM_NAME || "Pavan Kumar",
     brideName: process.env.BRIDE_NAME || "Aishwarya",
     eventDate: process.env.EVENT_DATE,
-    memories,
+    memories: wallMemories,
     brideCount,
     groomCount,
     bridePercent,
@@ -194,7 +355,7 @@ app.post("/api/upload-signature", (req, res) => {
   }
 
   try {
-    res.json({ success: true, ...getCloudinaryUploadSignature() });
+    res.json({ success: true, ...getCloudinaryUploadSignature(req.body) });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -211,7 +372,7 @@ app.post("/api/memories", (req, res) => {
   }
 
   const memory = createMemoryFromUpload(
-    { secure_url: secureUrl, public_id: publicId },
+    { secure_url: secureUrl, public_id: publicId, asset_id: req.body.assetId },
     req.body
   );
   memories.unshift(memory);
@@ -231,7 +392,7 @@ app.post("/upload", upload.single("photo"), async (req, res) => {
   }
 
   try {
-    const uploadedImage = await uploadToCloudinary(req.file);
+    const uploadedImage = await uploadToCloudinary(req.file, req.body);
     const memory = createMemoryFromUpload(uploadedImage, req.body);
 
     memories.unshift(memory);
@@ -252,8 +413,8 @@ app.post("/upload", upload.single("photo"), async (req, res) => {
 });
 
 // React to a photo (5 emoji types)
-app.post("/react/:id", (req, res) => {
-  const memory = memories.find(item => item.id === Number(req.params.id));
+app.post("/react/:id", async (req, res) => {
+  const memory = await getMutableMemory(req.params.id);
 
   if (!memory) {
     return res.status(404).json({ success: false });
@@ -290,8 +451,8 @@ app.post("/react/:id", (req, res) => {
 });
 
 // Add a comment to a photo
-app.post("/comment/:id", (req, res) => {
-  const memory = memories.find(item => item.id === Number(req.params.id));
+app.post("/comment/:id", async (req, res) => {
+  const memory = await getMutableMemory(req.params.id);
 
   if (!memory) {
     return res.status(404).json({ success: false });
@@ -321,8 +482,8 @@ app.post("/comment/:id", (req, res) => {
 });
 
 // Get a single memory (for modal refresh)
-app.get("/api/memory/:id", (req, res) => {
-  const memory = memories.find(item => item.id === Number(req.params.id));
+app.get("/api/memory/:id", async (req, res) => {
+  const memory = await getMutableMemory(req.params.id);
   if (!memory) {
     return res.status(404).json({ success: false });
   }
@@ -332,19 +493,20 @@ app.get("/api/memory/:id", (req, res) => {
 // Admin panel
 const ADMIN_KEY = process.env.ADMIN_KEY || "admin123";
 
-app.get("/admin", (req, res) => {
+app.get("/admin", async (req, res) => {
   if (req.query.key !== ADMIN_KEY) {
     return res.status(403).send("Access denied. Add ?key=YOUR_KEY to the URL.");
   }
-  const brideCount = memories.filter(m => m.side === "Bride's Side").length;
-  const groomCount = memories.filter(m => m.side === "Groom's Side").length;
+  const wallMemories = await getWallMemories();
+  const brideCount = wallMemories.filter(m => m.side === "Bride's Side").length;
+  const groomCount = wallMemories.filter(m => m.side === "Groom's Side").length;
   const totalCompetitors = brideCount + groomCount;
   const bridePercent = totalCompetitors === 0 ? 50 : Math.round((brideCount / totalCompetitors) * 100);
   const groomPercent = 100 - bridePercent;
 
   res.render("admin", {
     appName: process.env.APP_NAME || "WeddingSnap",
-    memories,
+    memories: wallMemories,
     brideCount,
     groomCount,
     bridePercent,
@@ -365,21 +527,35 @@ app.post("/admin/toggle-uploads", (req, res) => {
 });
 
 // Admin delete photo
-app.post("/admin/delete/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const idx = memories.findIndex(m => m.id === id);
-  if (idx === -1) {
-    return res.json({ success: false, error: "Not found" });
+app.post("/admin/delete/:id", async (req, res) => {
+  if (req.query.key !== ADMIN_KEY && req.body?.key !== ADMIN_KEY) {
+    return res.status(403).json({ success: false, error: "Access denied" });
   }
-  memories.splice(idx, 1);
-  res.json({ success: true });
+
+  try {
+    const id = req.params.id;
+    const wallMemories = await getWallMemories();
+    const memory = wallMemories.find(item => String(item.id) === String(id));
+    if (!memory) {
+      return res.json({ success: false, error: "Not found" });
+    }
+
+    if (memory.cloudinaryPublicId) {
+      await deleteCloudinaryImage(memory.cloudinaryPublicId);
+    }
+    memories = memories.filter(item => String(item.id) !== String(id) && item.cloudinaryPublicId !== memory.cloudinaryPublicId);
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Admin delete failed:", error);
+    res.status(500).json({ success: false, error: error.message || "Delete failed" });
+  }
 });
 
 // Admin delete comment
-app.post("/admin/delete-comment/:photoId/:commentId", (req, res) => {
-  const photoId = Number(req.params.photoId);
+app.post("/admin/delete-comment/:photoId/:commentId", async (req, res) => {
+  const photoId = req.params.photoId;
   const commentId = Number(req.params.commentId);
-  const memory = memories.find(m => m.id === photoId);
+  const memory = await getMutableMemory(photoId);
   if (!memory || !memory.comments) {
     return res.json({ success: false, error: "Not found" });
   }

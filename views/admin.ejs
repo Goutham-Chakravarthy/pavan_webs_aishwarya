@@ -145,8 +145,8 @@
           <div class="photo-info">
             <div class="photo-caption"><%= memory.caption || 'No caption' %></div>
             <div class="photo-meta">by <%= memory.guestName || 'Anonymous' %> · ❤️ <%= Object.values(memory.reactions || {}).reduce((a, b) => a + b, 0) %> · 💬 <%= memory.comments?.length || 0 %></div>
-            <span class="photo-side <%= memory.side === "Bride's Side" ? 'side-bride' : memory.side === "Groom's Side" ? 'side-groom' : 'side-friends' %>">
-              <%= memory.side || 'Friends' %>
+            <span class="photo-side <%= memory.side === "Bride's Side" ? 'side-bride' : 'side-groom' %>">
+              <%= memory.side || "Bride's Side" %>
             </span>
             
             <% if (memory.comments && memory.comments.length > 0) { %>
@@ -194,7 +194,9 @@
     async function doDelete() {
       if (!pendingDeleteId) return;
       try {
-        const res = await fetch(`/admin/delete/${pendingDeleteId}`, { method: "POST" });
+        const urlParams = new URLSearchParams(window.location.search);
+        const key = encodeURIComponent(urlParams.get('key') || '');
+        const res = await fetch(`/admin/delete/${pendingDeleteId}?key=${key}`, { method: "POST" });
         const data = await res.json();
         if (data.success) {
           const el = document.getElementById(`item-${pendingDeleteId}`);

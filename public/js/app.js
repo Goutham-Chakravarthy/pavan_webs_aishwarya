@@ -296,8 +296,12 @@ async function resizeImageForUpload(file) {
   }
 }
 
-async function requestUploadSignature() {
-  const res = await fetch("/api/upload-signature", { method: "POST" });
+async function requestUploadSignature(details) {
+  const res = await fetch("/api/upload-signature", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(details)
+  });
   const data = await res.json();
   if (!res.ok || !data.success) {
     throw new Error(data.error || "Upload is not available right now.");
@@ -309,6 +313,7 @@ function uploadFileToCloudinary(file, signatureData, onProgress) {
   return new Promise((resolve, reject) => {
     const formData = new FormData();
     formData.append("file", file);
+    if (signatureData.context) formData.append("context", signatureData.context);
     formData.append("api_key", signatureData.apiKey);
     formData.append("timestamp", signatureData.timestamp);
     formData.append("folder", signatureData.folder);
@@ -342,6 +347,7 @@ async function saveMemoryToWall(uploadedImage, details) {
     body: JSON.stringify({
       secureUrl: uploadedImage.secure_url,
       publicId: uploadedImage.public_id,
+      assetId: uploadedImage.asset_id,
       caption: details.caption,
       guestName: details.guestName,
       side: details.side
@@ -445,7 +451,7 @@ if (btnShareMemory) {
     try {
       const details = getUploadDetails();
       const uploadFile = await resizeImageForUpload(selectedFile);
-      const signatureData = await requestUploadSignature();
+      const signatureData = await requestUploadSignature(details);
       const uploadedImage = await uploadFileToCloudinary(uploadFile, signatureData, (percent) => {
         setShareButton(`Uploading ${percent}%...`);
       });
