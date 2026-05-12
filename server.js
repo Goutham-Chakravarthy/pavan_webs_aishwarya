@@ -82,13 +82,15 @@ async function uploadToCloudinary(file) {
 }
 
 function createMemoryFromUpload(uploadedImage, body = {}) {
+  const side = ["Bride's Side", "Groom's Side"].includes(body.side) ? body.side : "Bride's Side";
+
   return {
     id: Date.now(),
     imageUrl: uploadedImage.secure_url,
     cloudinaryPublicId: uploadedImage.public_id,
     caption: body.caption || "A beautiful memory",
     guestName: body.guestName || "Anonymous",
-    side: body.side || "Friends",
+    side,
     reactions: {
       heart: 0,
       laugh: 0,

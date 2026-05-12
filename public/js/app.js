@@ -135,13 +135,18 @@ if (captionInput && charCount) {
 const savedSide = localStorage.getItem("guestSide");
 const sidePillsContainer = document.querySelector(".side-pills");
 const sideLabel = document.querySelector(".side-label");
+const validUploadSides = ["Bride's Side", "Groom's Side"];
 
-if (savedSide) {
+if (savedSide && validUploadSides.includes(savedSide)) {
   // Side already chosen — auto-fill and hide the pills
   const hiddenSide = document.getElementById("hiddenSide");
   if (hiddenSide) hiddenSide.value = savedSide;
   if (sidePillsContainer) sidePillsContainer.style.display = "none";
   if (sideLabel) sideLabel.style.display = "none";
+} else {
+  localStorage.removeItem("guestSide");
+  const hiddenSide = document.getElementById("hiddenSide");
+  if (hiddenSide) hiddenSide.value = "Bride's Side";
 }
 
 document.querySelectorAll(".side-pill").forEach(pill => {
@@ -236,11 +241,11 @@ function getUploadDetails() {
   const hiddenGuestInput = document.getElementById("hiddenGuestName");
 
   if (hiddenCaption) hiddenCaption.value = captionInput?.value || "";
-  if (hiddenSideInput) hiddenSideInput.value = document.getElementById("hiddenSide")?.value || "Friends";
+  if (hiddenSideInput && !validUploadSides.includes(hiddenSideInput.value)) hiddenSideInput.value = "Bride's Side";
 
   return {
     caption: hiddenCaption?.value || captionInput?.value || "",
-    side: hiddenSideInput?.value || "Friends",
+    side: validUploadSides.includes(hiddenSideInput?.value) ? hiddenSideInput.value : "Bride's Side",
     guestName: hiddenGuestInput?.value || localStorage.getItem("guestName") || "Anonymous"
   };
 }
@@ -486,7 +491,7 @@ if (btnShareMemory) {
     const hiddenSideInput = document.getElementById("hiddenSide");
 
     if (hiddenCaption) hiddenCaption.value = captionInput?.value || "";
-    if (hiddenSideInput) hiddenSideInput.value = document.getElementById("hiddenSide")?.value || "Friends";
+    if (hiddenSideInput && !validUploadSides.includes(hiddenSideInput.value)) hiddenSideInput.value = "Bride's Side";
 
     // Transfer the selected file to the form's file input
     // Use the gallery input as it's more universal
@@ -576,7 +581,7 @@ function openPhotoModal(memory) {
 
   // Time ago
   const timeAgo = getTimeAgo(memory.createdAt);
-  document.getElementById("modalMeta").textContent = `${timeAgo} · ${memory.side || "Friends"}`;
+  document.getElementById("modalMeta").textContent = `${timeAgo} · ${memory.side || "Bride's Side"}`;
 
   // Reactions
   updateReactionCountsUI(memory.reactions);
