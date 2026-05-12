@@ -219,6 +219,252 @@ function checkCooldownOnPreview() {
 const btnShareMemory = document.getElementById("btnShareMemory");
 let isUploading = false;
 
+const MAX_UPLOAD_DIMENSION = 1600;
+const MAX_UPLOAD_BYTES = 1800 * 1024;
+const JPEG_QUALITY = 0.82;
+
+function setShareButton(text, disabled = true) {
+  if (!btnShareMemory) return;
+  btnShareMemory.disabled = disabled;
+  btnShareMemory.textContent = text;
+  btnShareMemory.style.opacity = disabled ? "0.75" : "1";
+}
+
+function getUploadDetails() {
+  const hiddenCaption = document.getElementById("hiddenCaption");
+  const hiddenSideInput = document.getElementById("hiddenSide");
+  const hiddenGuestInput = document.getElementById("hiddenGuestName");
+
+  if (hiddenCaption) hiddenCaption.value = captionInput?.value || "";
+  if (hiddenSideInput) hiddenSideInput.value = document.getElementById("hiddenSide")?.value || "Friends";
+
+  return {
+    caption: hiddenCaption?.value || captionInput?.value || "",
+    side: hiddenSideInput?.value || "Friends",
+    guestName: hiddenGuestInput?.value || localStorage.getItem("guestName") || "Anonymous"
+  };
+}
+
+function loadImageFromFile(file) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      resolve(img);
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("Could not prepare this image."));
+    };
+    img.src = url;
+  });
+}
+
+async function resizeImageForUpload(file) {
+  const type = (file.type || "").toLowerCase();
+  if (!type.startsWith("image/") || type.includes("gif") || type.includes("heic") || type.includes("heif")) {
+    return file;
+  }
+  if (file.size <= MAX_UPLOAD_BYTES) {
+    return file;
+  }
+
+  try {
+    const image = await loadImageFromFile(file);
+    const scale = Math.min(1, MAX_UPLOAD_DIMENSION / Math.max(image.width, image.height));
+    const width = Math.max(1, Math.round(image.width * scale));
+    const height = Math.max(1, Math.round(image.height * scale));
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = width;
+    canvas.height = height;
+    ctx.drawImage(image, 0, 0, width, height);
+
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", JPEG_QUALITY));
+    if (!blob || blob.size >= file.size) return file;
+
+    const baseName = file.name.replace(/\.[^.]+$/, "");
+    return new File([blob], `${baseName}.jpg`, { type: "image/jpeg" });
+  } catch (err) {
+    return file;
+  }
+}
+
+async function requestUploadSignature() {
+  const res = await fetch("/api/upload-signature", { method: "POST" });
+  const data = await res.json();
+  if (!res.ok || !data.success) {
+    throw new Error(data.error || "Upload is not available right now.");
+  }
+  return data;
+}
+
+function uploadFileToCloudinary(file, signatureData, onProgress) {
+  return new Promise((resolve, reject) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("api_key", signatureData.apiKey);
+    formData.append("timestamp", signatureData.timestamp);
+    formData.append("folder", signatureData.folder);
+    formData.append("signature", signatureData.signature);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", `https://api.cloudinary.com/v1_1/${signatureData.cloudName}/image/upload`);
+    xhr.upload.onprogress = (event) => {
+      if (!event.lengthComputable) return;
+      const percent = Math.max(1, Math.min(99, Math.round((event.loaded / event.total) * 100)));
+      onProgress(percent);
+    };
+    xhr.onload = () => {
+      let data = {};
+      try { data = JSON.parse(xhr.responseText || "{}"); } catch (err) {}
+      if (xhr.status >= 200 && xhr.status < 300 && data.secure_url) {
+        resolve(data);
+      } else {
+        reject(new Error(data.error?.message || "Cloudinary upload failed."));
+      }
+    };
+    xhr.onerror = () => reject(new Error("Network error while uploading."));
+    xhr.send(formData);
+  });
+}
+
+async function saveMemoryToWall(uploadedImage, details) {
+  const res = await fetch("/api/memories", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      secureUrl: uploadedImage.secure_url,
+      publicId: uploadedImage.public_id,
+      caption: details.caption,
+      guestName: details.guestName,
+      side: details.side
+    })
+  });
+  const data = await res.json();
+  if (!res.ok || !data.success) {
+    throw new Error(data.error || "Could not add this photo to the wall.");
+  }
+  return data.memory;
+}
+
+function escapeHtml(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function updateWallCounts() {
+  const statMemories = document.getElementById("statMemories");
+  const statReactions = document.getElementById("statReactions");
+  const statComments = document.getElementById("statComments");
+  if (statMemories) statMemories.textContent = allMemories.length;
+  if (statReactions) {
+    statReactions.textContent = allMemories.reduce((sum, m) => (
+      sum + (m.reactions?.heart || 0) + (m.reactions?.fire || 0) +
+      (m.reactions?.laugh || 0) + (m.reactions?.love || 0) + (m.reactions?.clap || 0)
+    ), 0);
+  }
+  if (statComments) {
+    statComments.textContent = allMemories.reduce((sum, m) => sum + (m.comments?.length || 0), 0);
+  }
+
+  const sectionMetas = document.querySelectorAll(".section-meta");
+  const memoryMeta = sectionMetas[sectionMetas.length - 1];
+  if (memoryMeta) memoryMeta.textContent = `${allMemories.length} PANELS`;
+}
+
+function bindMemoryTile(tile) {
+  tile.addEventListener("click", () => {
+    tile.style.transform = "scale(0.96)";
+    setTimeout(() => { tile.style.transform = ""; }, 150);
+
+    const memoryData = tile.dataset.memory;
+    if (memoryData) {
+      try {
+        const memory = JSON.parse(decodeURIComponent(memoryData));
+        openPhotoModal(memory);
+      } catch (err) {
+        console.error("Failed to parse memory data:", err);
+      }
+    }
+  });
+}
+
+function insertMemoryTile(memory) {
+  const grid = document.querySelector(".bento-grid");
+  if (!grid) return;
+
+  Array.from(grid.children).forEach(child => {
+    if (child.textContent && child.textContent.includes("No memories yet!")) child.remove();
+  });
+  document.querySelectorAll(".starburst-badge").forEach(badge => badge.remove());
+
+  const tile = document.createElement("div");
+  tile.className = "bento-tile tall";
+  tile.dataset.memoryId = memory.id;
+  tile.dataset.memory = encodeURIComponent(JSON.stringify(memory));
+  tile.innerHTML = `
+    <div class="starburst-badge">NEW!</div>
+    <img src="${escapeHtml(memory.imageUrl)}" alt="Memory" loading="lazy">
+    <div class="bento-halftone"></div>
+    <div class="bento-caption">
+      <span class="bento-caption-text">${escapeHtml(memory.caption || "No caption")}</span>
+      <span class="bento-caption-stats">0</span>
+    </div>
+  `;
+  grid.prepend(tile);
+  bindMemoryTile(tile);
+  updateWallCounts();
+}
+
+if (btnShareMemory) {
+  btnShareMemory.addEventListener("click", async (event) => {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    if (!selectedFile || isUploading) return;
+
+    const cooldown = getCooldownRemaining();
+    if (cooldown > 0) {
+      startCooldownUI();
+      return;
+    }
+
+    isUploading = true;
+    setShareButton("Preparing photo...");
+
+    try {
+      const details = getUploadDetails();
+      const uploadFile = await resizeImageForUpload(selectedFile);
+      const signatureData = await requestUploadSignature();
+      const uploadedImage = await uploadFileToCloudinary(uploadFile, signatureData, (percent) => {
+        setShareButton(`Uploading ${percent}%...`);
+      });
+      setShareButton("Adding to wall...");
+      const memory = await saveMemoryToWall(uploadedImage, details);
+
+      saveUploadTimestamp();
+      allMemories.unshift(memory);
+      insertMemoryTile(memory);
+
+      const successThumb = document.getElementById("successThumb");
+      if (successThumb) successThumb.src = memory.imageUrl;
+      showUploadStep(3);
+      fireConfetti();
+      showToast("Memory is live on the wall!");
+    } catch (err) {
+      showToast(err.message || "Upload failed. Please try again.", 4500);
+      setShareButton("Share to the Memory Wall â†’", false);
+    } finally {
+      isUploading = false;
+    }
+  });
+}
+
 if (btnShareMemory) {
   btnShareMemory.addEventListener("click", () => {
     if (!selectedFile || isUploading) return;

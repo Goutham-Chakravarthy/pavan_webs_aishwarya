@@ -39,7 +39,7 @@ function signCloudinaryParams(params) {
     .digest("hex");
 }
 
-async function uploadToCloudinary(file) {
+function getCloudinaryUploadSignature() {
   const { cloudName, apiKey, apiSecret, folder } = cloudinaryConfig;
 
   if (!cloudName || !apiKey || !apiSecret) {
@@ -48,7 +48,18 @@ async function uploadToCloudinary(file) {
 
   const timestamp = Math.floor(Date.now() / 1000).toString();
   const signedParams = { folder, timestamp };
-  const signature = signCloudinaryParams(signedParams);
+
+  return {
+    cloudName,
+    apiKey,
+    folder,
+    timestamp,
+    signature: signCloudinaryParams(signedParams)
+  };
+}
+
+async function uploadToCloudinary(file) {
+  const { cloudName, apiKey, folder, timestamp, signature } = getCloudinaryUploadSignature();
   const formData = new FormData();
 
   formData.append("file", new Blob([file.buffer], { type: file.mimetype }), file.originalname);
@@ -68,6 +79,26 @@ async function uploadToCloudinary(file) {
   }
 
   return body;
+}
+
+function createMemoryFromUpload(uploadedImage, body = {}) {
+  return {
+    id: Date.now(),
+    imageUrl: uploadedImage.secure_url,
+    cloudinaryPublicId: uploadedImage.public_id,
+    caption: body.caption || "A beautiful memory",
+    guestName: body.guestName || "Anonymous",
+    side: body.side || "Friends",
+    reactions: {
+      heart: 0,
+      laugh: 0,
+      love: 0,
+      fire: 0,
+      clap: 0
+    },
+    comments: [],
+    createdAt: new Date().toISOString()
+  };
 }
 
 const upload = multer({
@@ -155,6 +186,36 @@ app.get("/upload", (req, res) => {
   res.redirect("/wall");
 });
 
+app.post("/api/upload-signature", (req, res) => {
+  if (!uploadsEnabled) {
+    return res.status(403).json({ success: false, error: "Uploads are currently paused by the admin." });
+  }
+
+  try {
+    res.json({ success: true, ...getCloudinaryUploadSignature() });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+app.post("/api/memories", (req, res) => {
+  if (!uploadsEnabled) {
+    return res.status(403).json({ success: false, error: "Uploads are currently paused by the admin." });
+  }
+
+  const { secureUrl, publicId } = req.body;
+  if (!secureUrl || !publicId) {
+    return res.status(400).json({ success: false, error: "Uploaded image details are missing." });
+  }
+
+  const memory = createMemoryFromUpload(
+    { secure_url: secureUrl, public_id: publicId },
+    req.body
+  );
+  memories.unshift(memory);
+  res.json({ success: true, memory });
+});
+
 app.post("/upload", upload.single("photo"), async (req, res) => {
   if (!uploadsEnabled) {
     if (req.headers['x-requested-with'] === 'XMLHttpRequest' || req.headers.accept?.includes('application/json')) {
@@ -169,23 +230,7 @@ app.post("/upload", upload.single("photo"), async (req, res) => {
 
   try {
     const uploadedImage = await uploadToCloudinary(req.file);
-    const memory = {
-      id: Date.now(),
-      imageUrl: uploadedImage.secure_url,
-      cloudinaryPublicId: uploadedImage.public_id,
-      caption: req.body.caption || "A beautiful memory",
-      guestName: req.body.guestName || "Anonymous",
-      side: req.body.side || "Friends",
-      reactions: {
-        heart: 0,
-        laugh: 0,
-        love: 0,
-        fire: 0,
-        clap: 0
-      },
-      comments: [],
-      createdAt: new Date().toISOString()
-    };
+    const memory = createMemoryFromUpload(uploadedImage, req.body);
 
     memories.unshift(memory);
 
